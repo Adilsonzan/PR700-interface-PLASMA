@@ -1,0 +1,79 @@
+     1: 
+     2: //---------------------------------------------------------------------
+     3: // Includes
+     4: //---------------------------------------------------------------------
+     5: //...
+     6: #include "xsystem.h"
+     7: 
+     8: //---------------------------------------------------------------------
+     9: // bits de configuração
+    10: //---------------------------------------------------------------------
+    11: __PROG_CONFIG(0x1,0x7300); //00-01 (cristal externo de 15Mhz)
+    12: __PROG_CONFIG(0x2,0x0006); //02-03
+    13: __PROG_CONFIG(0x3,0xB500); //04-05
+    14: __PROG_CONFIG(0x4,0x0085); //06-07
+    15: __PROG_CONFIG(0x5,0xC00F); //08-09
+    16: __PROG_CONFIG(0x6,0xE00F); //10-11
+    17: __PROG_CONFIG(0x7,0x400F); //12-13
+    18: 
+    19: __IDLOC(01234567);
+    20: 
+    21: //---------------------------------------------------------------------
+    22: // variáveis
+    23: //---------------------------------------------------------------------
+    24: 
+    25: static void IniciaDAC(void) {
+    26:         //configura os pinos analógicos
+    27:         ANSELA = 0x00;
+    28:         ANSELB = 0x00;
+    29:         ANSELC = 0x00;
+    30:         ANSELD = 0x00;
+    31:         ANSELE = 0x00;
+    32: }
+    33: 
+    34: static void IniciaPIO(void) {
+    35:         //Entradas e saidas
+    36:         TRISA = kTRISA;
+    37:         TRISB = kTRISB;
+    38:         TRISC = kTRISC; 
+    39:         TRISD = kTRISD;
+    40:         TRISE = kTRISE;
+    41:         
+    42:         //valor padrão de inicialização
+    43:         PORTA = kPORTA;
+    44:         PORTB = kPORTB;
+    45:         PORTC = kPORTC; 
+    46:         PORTD = kPORTD;
+    47:         PORTE = kPORTE;
+    48: }
+    49: 
+    50: void InitSystem(void) {
+    51:         IniciaDAC();
+    52:         IniciaPIO();
+    53: }
+    54: 
+    55: //---------------------------------------------------------------------
+    56: // uart
+    57: //---------------------------------------------------------------------
+    58: //por default a UART inicia com interrupção de alta prioridade
+    59: void IniciaUART1(U32 baud, char irqon) {
+    60:         U32 x = (FOSC/(4*baud)) - 1;
+    61:         SPBRGH1 = x>>8;
+    62:         SPBRG1 = x;
+    63:         TXSTA1 = BIT7|BIT5|BIT2;
+    64:         RCSTA1 = BIT7|BIT4;
+    65:         BAUDCON1 = BIT3;
+    66:         RC1IE = irqon;
+    67: }
+    68: 
+    69: //rotina basica de impressão
+    70: void putch(char c) {
+    71:     TXREG1 = c;
+    72:     while (!TRMT1);    
+    73: }
+    74: 
+    75: void putstr(const char *s) {
+    76:     while (*s) putch(*s++); 
+    77: }
+    78: 
+    79: 

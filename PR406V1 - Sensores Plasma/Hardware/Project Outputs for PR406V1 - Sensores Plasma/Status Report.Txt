@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [PR406V1.PcbDoc]
+   Generated File[PR406V1.TXT]
+   Generated File[PR406V1.LDP]
+   Generated File[PR406V1.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 09:58:33 On 27/01/2016

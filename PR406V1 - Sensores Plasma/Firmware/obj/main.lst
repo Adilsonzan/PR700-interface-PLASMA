@@ -1,0 +1,779 @@
+     1: 
+     2: #include <htc.h>
+     3: #include <stdlib.h>
+     4: #include "xtypes.h"
+     5: #include "pio.h"
+     6: 
+     7: #ifdef __ECLIPSE__
+     8: typedef char bit;
+     9: #include <port/pic18f/pic18f45k22reg.h>
+    10: #define __PROG_CONFIG(a,b)
+    11: #define __IDLOC(a)
+    12: #define interrupt
+    13: #define low_priority
+    14: #endif
+    15: 
+    16: __PROG_CONFIG(0x1,0x7300); //00-01 (cristal externo de 15Mhz)
+    17: __PROG_CONFIG(0x2,0x0006); //02-03
+    18: __PROG_CONFIG(0x3,0xB500); //04-05
+    19: __PROG_CONFIG(0x4,0x0085); //06-07
+    20: __PROG_CONFIG(0x5,0xC00F); //08-09
+    21: __PROG_CONFIG(0x6,0xE00F); //10-11
+    22: __PROG_CONFIG(0x7,0x400F); //12-13
+    23: __IDLOC(01234567);
+    24: 
+    25: #define FOSC            60000000UL
+    26: #define FOSCUS          (FOSC/4000000)  //pulsos do oscilador/us
+    27: #define FOSCMS          (FOSC/4000)     //pulsos do oscilador/ms
+    28: 
+    29: void delayus(int t) {
+    30:         while (t>=10) { _delay(FOSCUS*10-25); t -= 10; }
+    31:         while (t--) _delay(FOSCUS-11);
+    32: }
+    33: 
+    34: void delayms(int t) {
+    35:         while (t--) _delay(FOSCMS);
+    36: }
+    37: 
+    38: void IniciaTMR2(void) {//tempo original de interrupção de 4/60E6 * 256 = 17,066us
+    39:         //T2CONbits.T2CKPS = 1; //prescaler 4
+    40:         //T2CONbits.T2OUTPS = 0;
+    41:         T2CON = 0b00000000;
+    42:         TMR2 = 240;
+    43:         TMR2IF = 0;
+    44:         TMR2IP = 1;//alta prioridade
+    45:         TMR2IE = 1;
+    46:         TMR2ON = 1;
+    47: }
+    48: 
+    49: void IniciaTMR6(void) {//tempo original de interrupção de 4/60E6 * 256 = 17,066us
+    50:         //T2CONbits.T2CKPS = 1; //prescaler 4
+    51:         //T2CONbits.T2OUTPS = 0;
+    52:         T6CON = 0b00000000;
+    53:         TMR6 = 240;
+    54:         TMR6IF = 0;
+    55:         TMR6IP = 1;//alta prioridade
+    56:         TMR6IE = 1;
+    57:         TMR6ON = 1;
+    58: }
+    59: 
+    60: 
+    61: void IniciaTMR3(void) {//timer ccp2
+    62:         T3CONbits.T3CKPS = 0;//verificar
+    63:         T3CONbits.TMR3CS = 0;
+    64:         T3CONbits.T3RD16 = 1;
+    65:         TMR3ON = 1;
+    66: }
+    67: void IniciaTMR5(void) {//timer ccp1
+    68:         T5CONbits.T5CKPS = 0;//verificar
+    69:         T5CONbits.TMR5CS = 0;
+    70:         T5CONbits.T5RD16 = 1;
+    71:         TMR5ON = 1;
+    72: }
+    73: 
+    74: 
+    75: void IniciaCCP1(){
+    76:         CCP1MD=0;//habilita modulo ccp
+    77:         CCP1IE=1;//habilita interrupção
+    78:         CCPTMRS0bits.C1TSEL=2;//utiliza timer 5;
+    79: //      CCP1CONbits.CCP1M = 5;// subida
+    80: }
+    81: 
+    82: void IniciaCCP2(){
+    83:         CCP2MD=0;//habilita modulo ccp
+    84:         CCP2IE=1;//habilita interrupção
+    85:         CCPTMRS0bits.C2TSEL=1;//utiliza timer 3;
+    86: //      CCP2CONbits.CCP2M = 5;//subida
+    87: }
+    88: 
+    89: void IniciaANALOG(){
+    90:         ANSELD = 0b00001001;//AN20 e AN23
+    91:         ADCON2bits.ADCS = 1;//FOSC/8
+    92:         ADCON1bits.PVCFG = 0;//Ref - VDD
+    93:         ADCON1bits.NVCFG = 0;//Ref - VSS
+    94:         ADCON2bits.ADFM = 1;//ADRESH/ADRESL
+    95:         ADCON2bits.ACQT = 1;//2Tad
+    96: }
+    97: 
+    98: /*void Inicializa(void) {
+    99:         int i;
+   100: 
+   101:         for (i=0;i<1000;i++);
+   102: 
+   103:         InitSystem();
+   104:         IniciaUART1(1250000,1);
+   105:         IniciaTMR2();
+   106:         IniciaTMR3();
+   107:         IniciaTMR5();
+   108:         IniciaCCP1();
+   109:         IniciaCCP2();
+   110:         IniciaANALOG();
+   111:         //pin_ENA = 1;//trava motor z
+   112: }*/
+   113: 
+   114: void IniciaUART2(U32 baud, char irqon) {
+   115:         U32 x = (60000000UL/(4*baud)) - 1;
+   116:         SPBRGH2 = x>>8;
+   117:         SPBRG2 = x;
+   118:         TXSTA2 = BIT7|BIT5|BIT2;
+   119:         RCSTA2 = BIT7|BIT4;
+   120:         BAUDCON2 = BIT3;
+   121:         RC2IE = irqon;
+   122: }
+   123: 
+   124: void tx1(U8 d)
+   125: {
+   126:         TXREG1 = d;
+   127:         while (!TRMT1);
+   128: //      RCIF = 0;
+   129: }
+   130: 
+   131: void IniciaDACX(void) {
+   132:         //configura os pinos analógicos
+   133:         ANSELA = 0x00;
+   134:         ANSELB = 0x00;
+   135:         ANSELC = 0x00;
+   136:         ANSELD = 0x00;
+   137:         ANSELE = 0x00;
+   138: }
+   139: 
+   140: void IniciaPIOX(void) {
+   141:         //Entradas e saidas
+   142:         TRISA = kTRISA;
+   143:         TRISB = kTRISB;
+   144:         TRISC = kTRISC;
+   145:         TRISD = kTRISD;
+   146:         TRISE = kTRISE;
+   147: 
+   148:         //valor padrão de inicialização
+   149:         PORTA = kPORTA;
+   150:         PORTB = kPORTB;
+   151:         PORTC = kPORTC;
+   152:         PORTD = kPORTD;
+   153:         PORTE = kPORTE;
+   154: }
+   155: 
+   156: 
+   157: //por default a UART inicia com interrupção de alta prioridade
+   158: void IniciaUART1X(U32 baud, char irqon) {
+   159:         U32 x = (FOSC/(4*baud)) - 1;
+   160:         SPBRGH1 = x>>8;
+   161:         SPBRG1 = x;
+   162:         TXSTA1 = BIT7|BIT5|BIT2;
+   163:         RCSTA1 = BIT7|BIT4; // bit 7 trava timer2/4/6 SPEN
+   164: //      RCSTA1 = BIT4;
+   165:         BAUDCON1 = BIT3;
+   166:         RC1IE = irqon;
+   167: }
+   168: 
+   169:    void showbyte(U8 b0)
+   170:     {
+   171:          GIE=0;
+   172:            pin_LEDOK=1;pin_LEDOK=0;pin_LEDOK=1;pin_LEDOK=0;
+   173:          if (b0&128) pin_LEDOK=1;else pin_LEDOK=0;
+   174:          if (b0&64) pin_LEDOK=1;else pin_LEDOK=0;
+   175:                  if (b0&32) pin_LEDOK=1;else pin_LEDOK=0;
+   176:                  if (b0&16) pin_LEDOK=1;else pin_LEDOK=0;
+   177:          if (b0&8) pin_LEDOK=1;else pin_LEDOK=0;
+   178:          if (b0&4) pin_LEDOK=1;else pin_LEDOK=0;
+   179:                  if (b0&2) pin_LEDOK=1;else pin_LEDOK=0;
+   180:                  if (b0&1) pin_LEDOK=1;else pin_LEDOK=0;
+   181:                 pin_LEDOK=0;
+   182:                  GIE=1;
+   183:     }
+   184: 
+   185: volatile U8 bloco0,bloco1,bloco2,bloco3,bloco4,bloco5;
+   186: volatile U8 bloco[6];
+   187: volatile U8 posicaox=0;
+   188: volatile U8 posicaoy=0;
+   189: volatile U8 posicaoz=0;
+   190: volatile U8 enableall=0;
+   191: volatile U8 comando=0;
+   192: U8 comando_old=0;
+   193: 
+   194: void monta_bloco_thc(U8 a,U8 b,U8 c,U8 d)
+   195: {
+   196:         U16 check=a+b+c+d+30000;
+   197: 
+   198:         GIE = 0;
+   199:         NOP();
+   200:         bloco0=a;
+   201:         bloco1=b;
+   202:         bloco2=c;
+   203:         bloco3=d;
+   204:         bloco4=check>>8;
+   205:         bloco5=check;
+   206:         GIE = 1;
+   207: 
+   208: }
+   209: 
+   210: 
+   211: 
+   212: void delayw(BYTE t)
+   213: {
+   214:         if (t--==0) return;
+   215:         if (t--==0) return;
+   216:         if (t--==0) return;
+   217:         if (t--==0) return;
+   218:         if (t--==0) return;
+   219:         if (t--==0) return;
+   220:         if (t--==0) return;
+   221:         if (t--==0) return;
+   222:         if (t--==0) return;
+   223: 
+   224: }
+   225: 
+   226: #define pulsox delayw(5);       pinRC3=1; delayw(5); difzz--;   pinRC3=0; if (difzz==0) {       posicaoy_atual=py; return;}
+   227: 
+   228: void atualiza_posicaox()
+   229: {
+   230: static BYTE     posicaoy_atual=0;
+   231: 
+   232: GIE=0;
+   233: NOP();
+   234: BYTE py=posicaox;
+   235: GIE=1;
+   236: int difz=py-posicaoy_atual;
+   237: if (difz==0) return;
+   238: 
+   239: BYTE dirz=0; if (difz>0) dirz=1;
+   240: 
+   241: BYTE difzz=abs(py-posicaoy_atual);
+   242: 
+   243:         if (difzz>128) // estouro
+   244:         {
+   245:           difzz=256-difzz;
+   246:           dirz=1-dirz;
+   247:         }
+   248: 
+   249:         if (pinRC0!=dirz) delayus(1); // 200khz == 5us alto 5 us baixo
+   250: 
+   251:         NOP();
+   252:         pinRC0=dirz;
+   253: 
+   254:           pulsox
+   255:           pulsox
+   256:           pulsox
+   257:           pulsox
+   258:           pulsox
+   259:           pulsox
+   260:           pulsox
+   261:           pulsox
+   262:           pulsox
+   263:           pulsox
+   264:           pulsox
+   265:           pulsox
+   266:           pulsox
+   267:           pulsox
+   268:           pulsox
+   269:           pulsox
+   270:           pulsox
+   271:           pulsox
+   272:           pulsox
+   273:           pulsox
+   274:           pulsox
+   275:           pulsox
+   276:           pulsox
+   277:           pulsox
+   278:           pulsox
+   279:           pulsox
+   280:           pulsox
+   281:           pulsox
+   282:           pulsox
+   283:            pulsox
+   284:                   pulsox
+   285:                   pulsox
+   286:                   pulsox
+   287:                   pulsox
+   288:                   pulsox
+   289:                   pulsox
+   290:                   pulsox
+   291:                   pulsox
+   292:                   pulsox
+   293:                   pulsox
+   294:                   pulsox
+   295:                   pulsox
+   296:                    pulsox
+   297:                           pulsox
+   298:                           pulsox
+   299:                           pulsox
+   300:                           pulsox
+   301:                           pulsox
+   302:                           pulsox
+   303:                           pulsox
+   304:                           pulsox
+   305:                           pulsox
+   306:                           pulsox
+   307:                           pulsox
+   308:                           pulsox
+   309:                            pulsox
+   310:                                   pulsox
+   311:                                   pulsox
+   312:                                   pulsox
+   313:                                   pulsox
+   314:                                   pulsox
+   315:                                   pulsox
+   316:                                   pulsox
+   317:                                   pulsox
+   318:                                   pulsox
+   319:                                   pulsox
+   320:                                   pulsox
+   321:                                   pulsox
+   322:                                    pulsox
+   323:            posicaoy_atual=py;
+   324: 
+   325: }
+   326: 
+   327: 
+   328: 
+   329: 
+   330: #define pulsoy delayw(5);       pinRE2=1;pinRD1=1; delayw(5); difzz--;  pinRE2=0;pinRD1=0; if (difzz==0) {      posicaoy_atual=py; return;}
+   331: 
+   332: void atualiza_posicaoy()
+   333: {
+   334: static BYTE     posicaoy_atual=0;
+   335: 
+   336: GIE=0;
+   337: NOP();
+   338: BYTE py=posicaoy;
+   339: GIE=1;
+   340: int difz=py-posicaoy_atual;
+   341: if (difz==0) return;
+   342: 
+   343: BYTE dirz=0; if (difz>0) dirz=1;
+   344: 
+   345: BYTE difzz=abs(py-posicaoy_atual);
+   346: 
+   347:         if (difzz>128) // estouro
+   348:         {
+   349:           difzz=256-difzz;
+   350:           dirz=1-dirz;
+   351:         }
+   352: 
+   353:         if (pinRE1!=dirz) delayus(1); // 200khz == 5us alto 5 us baixo
+   354: 
+   355:         NOP();
+   356: 
+   357:         pinRE1=dirz;
+   358: 
+   359:    pulsoy
+   360:    pulsoy
+   361:    pulsoy
+   362:    pulsoy
+   363:    pulsoy
+   364:    pulsoy
+   365:    pulsoy
+   366:    pulsoy
+   367:    pulsoy
+   368:    pulsoy
+   369:    pulsoy
+   370:    pulsoy
+   371:    pulsoy
+   372:    pulsoy
+   373:    pulsoy
+   374:    pulsoy
+   375:    pulsoy
+   376:    pulsoy
+   377:    pulsoy
+   378: 
+   379:    posicaoy_atual=py;
+   380: }
+   381: 
+   382: 
+   383: //#define pinRE0                PORTEbits.RE0
+   384: //#define pinRA5                PORTAbits.RA5
+   385: 
+   386: #define pulsozz delayw(5); pinRE0=1; delayw(5); difzz--;        pinRE0=0; if (difzz==0) {       posicaoy_atual=py; return;}
+   387: 
+   388: void atualiza_posicaoz()
+   389: {
+   390: static BYTE     posicaoy_atual=0;
+   391: 
+   392: GIE=0;
+   393: NOP();
+   394: BYTE py=posicaoz;
+   395: GIE=1;
+   396: int difz=py-posicaoy_atual;
+   397: if (difz==0) return;
+   398: 
+   399: BYTE dirz=0; if (difz>0) dirz=1;
+   400: 
+   401: BYTE difzz=abs(py-posicaoy_atual);
+   402: 
+   403:         if (difzz>128) // estouro
+   404:         {
+   405:           difzz=256-difzz;
+   406:           dirz=1-dirz;
+   407:         }
+   408: 
+   409:         if (pinRA5!=dirz) delayus(1); // 200khz == 5us alto 5 us baixo
+   410: 
+   411:         NOP();
+   412: 
+   413:         pinRA5=dirz;
+   414: 
+   415:         pulsozz
+   416:         pulsozz
+   417:         pulsozz
+   418:         pulsozz
+   419:         pulsozz
+   420:         pulsozz
+   421:         pulsozz
+   422:         pulsozz
+   423:         pulsozz
+   424:         pulsozz
+   425:         pulsozz
+   426:         pulsozz
+   427:         pulsozz
+   428:         pulsozz
+   429:         pulsozz
+   430:         pulsozz
+   431:         pulsozz
+   432:         pulsozz
+   433:         pulsozz
+   434:         pulsozz
+   435:         pulsozz
+   436:         pulsozz
+   437:         pulsozz
+   438:         pulsozz
+   439:         pulsozz
+   440:         pulsozz
+   441:         pulsozz
+   442:         pulsozz
+   443: 
+   444:         posicaoy_atual=py;
+   445: }
+   446: 
+   447: 
+   448: 
+   449: char estado(char i){
+   450:          switch (i)      {
+   451:          case 0: return pin_S1;
+   452:          case 1: return pin_S2;
+   453:          case 2: return pin_S3;
+   454:          case 3: return pin_S4;
+   455:          case 4: return pin_S5;
+   456:          case 8:  return pin_S6;
+   457:          case 9:  return pin_S7;
+   458:          case 10: return pin_S8;
+   459:          case 11: return !pin_S9;
+   460:          case 12: return !pin_S10;
+   461:          }
+   462:         return 0;
+   463: }
+   464: 
+   465: //tratamento das interrupções de baixa prioridade
+   466: void onLPISR(void) {
+   467: }
+   468: 
+   469: void onSystemTick(void) {
+   470: }
+   471: 
+   472: //      tempo total == 580,82 us   ==  2,26*257
+   473: //  clock timer5 15mhz  = t=66,66ns
+   474: //      fator = 2,26/66,666 == 33,9
+   475: //      contagem maxima = 8712  ==  257 *33.9
+   476: 
+   477: unsigned char h1=100;
+   478: char mede_hall1(){
+   479:         static char evento1=0;
+   480:         static char cevent=100;
+   481:         if (!cevent--) { cevent=100;  h1=100; return 2;} // falha
+   482:         static unsigned int t_subida1,t_descida;
+   483:     static unsigned int t_alto,t_baixo;
+   484:         static long h2x;
+   485:     static unsigned int tab;
+   486: 
+   487:         switch (evento1){
+   488:         case 0:  evento1=1;
+   489:                          CCP1CON = 0;
+   490:                          CCP1MD=0;//habilita modulo ccp
+   491:                          CCP1CONbits.CCP1M=5; //ativa_ccp2(1); // pega proxima subida
+   492:                          CCP1IF = 0;
+   493:                          return 0;
+   494: 
+   495:         case 1: if (!CCP1IF)  return 0;
+   496:                         t_subida1 = CCPR1;
+   497:                         CCP1CON = 0;
+   498:                         CCP1MD=0;//habilita modulo ccp
+   499:                         CCP1CONbits.CCP1M=4; //ativa_ccp2(0); // pega proxima descida
+   500:                         CCP1IF = 0;
+   501:                         evento1=2;
+   502:                          return 0;
+   503: 
+   504:         case 2: if (!CCP1IF)  return 0;
+   505:                         t_descida = CCPR1;
+   506:                         CCP1CON = 0;
+   507:                         CCP1MD=0;//habilita modulo ccp
+   508:                         CCP1CONbits.CCP1M=5; //ativa_ccp2(1); // pega proxima subida
+   509:                         CCP1IF = 0;
+   510:                         evento1=3;
+   511:                          return 0;
+   512: 
+   513:         case 3: if (!CCP1IF)  return 0;
+   514:                         cevent=100;
+   515:                         CCP1CON = 0; // desliga modulo ccp2
+   516:                         CCP1IF=0;
+   517:                         t_alto = t_descida - t_subida1; //~t_subida1 + t_descida  + 1;
+   518:                         t_baixo = ~t_descida + CCPR1  + 1;
+   519:                         evento1=4;
+   520:                         return 0;
+   521: 
+   522:         case 4: if ((t_alto+t_baixo)>10000){
+   523:                                         int ref=(t_alto+t_baixo)/2;
+   524:                                         if (t_alto>t_baixo)  t_alto=t_alto-ref;  else  t_baixo=t_baixo-ref;
+   525:                                 }
+   526:                         evento1=5;
+   527:                         return 0;
+   528: 
+   529:         //      case 5: long h2x=(((t_alto+17)*(long)257)/(t_alto+t_baixo))-1; // tempo de exec= 100us
+   530:         case 5: h2x=(t_alto+17)*(long)257; // 25us
+   531:                         tab=t_alto+t_baixo;
+   532:                         evento1=6;
+   533:                         return 0;
+   534: 
+   535:         case 6: h1=h2x/tab; // 60us  // 45us com interr desab;
+   536:                         h1--;
+   537:                         evento1=0;
+   538:                         return 1;
+   539:         }
+   540:         return 1;
+   541: }
+   542: 
+   543: unsigned char h2=200;
+   544: char mede_hall2(){
+   545:         static char evento1=0;
+   546:         static char cevent=100;
+   547:         if (!cevent--) { cevent=100;  h2=200; return 2;} // falha
+   548:         static unsigned int t_subida1,t_descida;
+   549:         static unsigned int t_alto,t_baixo;
+   550:         static long h2x;
+   551:         static unsigned int tab;
+   552: 
+   553:         switch (evento1){
+   554:         case 0:  evento1=1;
+   555:                          CCP2CON = 0;
+   556:                          CCP2MD=0;//habilita modulo ccp
+   557:                          CCP2CONbits.CCP2M=5;// pega proxima subida
+   558:                          CCP2IF = 0;
+   559:                          return 0;
+   560: 
+   561:         case 1: if (!CCP2IF)  return 0;
+   562:                         t_subida1 = CCPR2;
+   563:                         CCP2CON = 0;
+   564:                         CCP2MD=0;//habilita modulo ccp
+   565:                         CCP2CONbits.CCP2M=4; // pega proxima descida
+   566:                         CCP2IF = 0;
+   567:                         evento1=2;
+   568:                          return 0;
+   569: 
+   570:         case 2: if (!CCP2IF)  return 0;
+   571:                         t_descida = CCPR2;
+   572:                         CCP2CON = 0;
+   573:                         CCP2MD=0;//habilita modulo ccp
+   574:                         CCP2CONbits.CCP2M=5;// pega proxima subida
+   575:                         CCP2IF = 0;
+   576:                         evento1=3;
+   577:                         return 0;
+   578: 
+   579:         case 3: if (!CCP2IF)  return 0;
+   580:                         cevent=100;// desarma protecao
+   581:                         CCP2CON = 0; // desliga modulo ccp2
+   582:                         CCP2IF=0;
+   583:                         t_alto = ~t_subida1 + t_descida  + 1;
+   584:                         t_baixo = ~t_descida + CCPR2  + 1;
+   585:                         evento1=4;
+   586:                         return 0;
+   587: 
+   588:         case 4: if ((t_alto+t_baixo)>10000){ // pegou mais de 1 ciclo?
+   589:                                         int ref=(t_alto+t_baixo)/2;
+   590:                                         if (t_alto>t_baixo)  t_alto=t_alto-ref;  else  t_baixo=t_baixo-ref; // diminue um ciclo
+   591:                                 }
+   592:                         evento1=5;
+   593:                         return 0;
+   594: 
+   595: //      case 5: long h2x=(((t_alto+17)*(long)257)/(t_alto+t_baixo))-1; // tempo de exec= 100us
+   596:         case 5: h2x=(t_alto+17)*(long)257; // MULTIPLICACAO COM LONG 25us
+   597:                         tab=t_alto+t_baixo;
+   598:                         evento1=6;
+   599:                         return 0;
+   600: 
+   601:         case 6: h2=h2x/tab; //ATENCAO DIVISAO COM LONG ESTA DEMORANDO 60us  // 45us com interr desab;
+   602:                         h2--;
+   603:                         evento1=0;
+   604:                         return 1;
+   605:         }
+   606:         return 1;
+   607: }
+   608: 
+   609: 
+   610: //interrupção de baixa prioridade
+   611: void interrupt low_priority LPISR(void) {
+   612: }
+   613: 
+   614: volatile int errosrx=1;
+   615: 
+   616: void interrupt onHPISR(void) {
+   617:         static U8 crif=0;
+   618:         static U8 nbr=0;
+   619:         static U8 blocor[6];
+   620:         static U8 nbloco=0; // trasm
+   621: 
+   622:         static long contt=0;
+   623:         static U8 ct=0;
+   624:         GIE=0;
+   625: 
+   626:   if (OERR2){ CREN2 = 0; CREN2 = 1;     RC2IF = 0; } // para evitar travamento da serial qdo enche a fifo
+   627: 
+   628: while (RC2IF)
+   629:         {
+   630:          crif=0;
+   631:          U8 dx = RCREG2; // se nao ler ele reentra instantaneamente
+   632:          blocor[nbr]=dx;
+   633:      nbr++;
+   634:          if (nbr>5)
+   635:      {
+   636:          nbr=0;
+   637:          U16 checkr=blocor[0]+blocor[1]+blocor[2]+blocor[3]+30000;
+   638:          U16 check16=(blocor[4]<<8)+blocor[5];
+   639:          if ( checkr==check16) {
+   640:                  posicaox=blocor[0];
+   641:                  posicaoy=blocor[1];
+   642:                  posicaoz=blocor[2];
+   643:                  comando=blocor[3];
+   644:                  }       else            {               errosrx++;      }
+   645:      }
+   646:         }
+   647: 
+   648:         if (TMR6IF)
+   649:         {//tempo de interrupção de 10us
+   650:             if (nbloco<6) TXREG1=bloco[nbloco];
+   651:                 if (nbloco==7)
+   652:             {  // prepara proximo bloco
+   653:                  nbloco=0;
+   654:                           bloco[0] = bloco0;
+   655:                           bloco[1] = bloco1;
+   656:                           bloco[2] = bloco2;
+   657:                           bloco[3] = bloco3;
+   658:                           bloco[4] = bloco4;
+   659:                           bloco[5] = bloco5;
+   660:             }
+   661:                 else
+   662:                    nbloco++;
+   663: 
+   664:                 if (RC2IF) crif=0;
+   665:                 crif++;
+   666:                 if (crif>2) {
+   667:                         nbr=0;
+   668:                 }// time out
+   669:                 TMR6IF=0;
+   670:                 TMR6=129;//129;
+   671:         }
+   672:         GIE=1;
+   673:   }
+   674: 
+   675: //long   contw=10;
+   676: void main(void) {
+   677:         GIE = 0;
+   678:         ANSELA = 0x00;
+   679:         ANSELB = 0x00;
+   680:         ANSELC = 0x00;
+   681:         ANSELD = 0x00;
+   682:         ANSELE = 0x00;
+   683:         IniciaPIOX();
+   684: 
+   685:         IniciaUART2(1250000,0); //Escrito na placa "485 EXT"  usada para receber
+   686:         IniciaUART1X(1250000,0); // Escrito na placa "485 CPU" usado para enviar somente
+   687: 
+   688:         IPEN = 1;
+   689:         PEIE = 1;
+   690: //      RC1IE=1;
+   691:         pin_TXRXEN = 1;         //Liga uart1  485 para transmitir
+   692: 
+   693:         T6CON = 0b00000000;
+   694:         TMR6 = 129; // 10us  conta 255-129  freq de 15mhz
+   695:         TMR6IF = 0;
+   696:         TMR6IP = 1;//alta prioridade
+   697:         TMR6IE = 1;
+   698:         TMR6ON = 1;
+   699: 
+   700: 
+   701:         // timer 5 roda a 15mhz usado para ccp1 e ccp2 medicao dos hall
+   702:         T5CONbits.T5CKPS = 0;//verificar
+   703:         T5CONbits.TMR5CS = 0;
+   704:         T5CONbits.T5RD16 = 1;
+   705:         TMR5IE = 0;  // usado somente para ccp1 e dois sem interrupcao
+   706:         TMR5ON = 1;
+   707: 
+   708:         CCP1MD=0;//habilita modulo ccp
+   709:         CCPTMRS0bits.C1TSEL=2; // timer5 no ccp2
+   710:         CCP1IE = 0;  // nao usa por interrupcao, sera verificado no poling
+   711: 
+   712:         CCP2MD=0;//habilita modulo ccp
+   713:         CCPTMRS0bits.C2TSEL=2; // timer5 no ccp2
+   714:         CCP2IE = 0;  // nao usa por interrupcao, sera verificado no poling
+   715: 
+   716:         long  contw=5;
+   717:         GIE = 0;
+   718:         while(1){
+   719:                 pin_LEDOK=!pin_LEDOK;
+   720:                 //pinRD1=0;
+   721:                 LATDbits.LATD1 = !LATDbits.LATD1;
+   722:                  atualiza_posicaox();
+   723:                  atualiza_posicaoy();
+   724:                  atualiza_posicaoz();
+   725:                  static char ix=0;
+   726:                  static  int filtro[16];
+   727:                  static int espelho=0;
+   728:                  if (filtro[ix]<100){ // roda a aprox 30khz/numero de analises
+   729:                         if (estado(ix)) filtro[ix]++;
+   730:                         espelho&=~(1<<ix); // zera bit
+   731:                  } else {
+   732:                          espelho|=1<<ix; // seta bit
+   733:                          if (!estado(ix)) filtro[ix]=0;
+   734:                 }
+   735:                 if (ix++==13) ix=0;
+   736: 
+   737:                 U8 SENSFC=espelho;
+   738:                 U8 FIM_CURSO_CABECA_NOT=espelho>>8;
+   739: 
+   740:                 static char medeccp=1;
+   741: 
+   742:                 if (medeccp==1) {
+   743:                         if (mede_hall1()) medeccp=2;
+   744:                 }else{
+   745:                         if (mede_hall2()) medeccp=1;
+   746:                 }
+   747: 
+   748:                 monta_bloco_thc(SENSFC,FIM_CURSO_CABECA_NOT,h1,h2);
+   749: 
+   750:                 if (comando){if (comando!=comando_old){ // pulso na fica na direcao que estiver
+   751:                                 comando_old=comando;
+   752:                                 if (comando==55){pinRE2=0; delayw(5);pinRE2=1; delayw(5); pinRE2=0;}
+   753:                                 if (comando==56){pinRD1=0; delayw(5);pinRD1=1; delayw(5); pinRD1=0;}
+   754:                 }}
+   755: 
+   756:                 if (contw++>10000){
+   757:                         contw=0;
+   758: //                  cont6++;
+   759:                 }}}
+   760: 
+   761: 
+   762: 
+   763: 
+   764: 
+   765: 
+   766: 
+   767: 
+   768: 
+   769: 
+   770: 
+   771: 
+   772: 
+   773: 
+   774: 
+   775: 
+   776: 
+   777: 
+   778: 
+   779: 

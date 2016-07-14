@@ -1,0 +1,3861 @@
+Version 3.2 HI-TECH Software Intermediate Code
+"186 C:\Program Files (x86)\HI-TECH Software\PICC-18\9.80\include\pic18.h
+[v __delay `(v ~T0 0 ef1`ul ]
+[p i __delay ]
+"4896 C:\Program Files (x86)\HI-TECH Software\PICC-18\9.80\include\pic18f45k22.h
+[v _T2CON `Vuc ~T0 0 e@4026 ]
+"4931
+[v _TMR2 `Vuc ~T0 0 e@4028 ]
+"8910
+[v _TMR2IF `Vb ~T0 0 e@31985 ]
+"8912
+[v _TMR2IP `Vb ~T0 0 e@31993 ]
+"8908
+[v _TMR2IE `Vb ~T0 0 e@31977 ]
+"8916
+[v _TMR2ON `Vb ~T0 0 e@32210 ]
+"505
+[v _T6CON `Vuc ~T0 0 e@3914 ]
+"540
+[v _TMR6 `Vuc ~T0 0 e@3916 ]
+"8974
+[v _TMR6IF `Vb ~T0 0 e@31730 ]
+"8976
+[v _TMR6IP `Vb ~T0 0 e@31738 ]
+"8972
+[v _TMR6IE `Vb ~T0 0 e@31722 ]
+"8980
+[v _TMR6ON `Vb ~T0 0 e@31314 ]
+[s S709 :2 `uc 1 :1 `uc 1 ]
+[n S709 . . NOT_T3SYNC ]
+[s S710 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 :2 `uc 1 ]
+[n S710 . TMR3ON T3RD16 nT3SYNC T3SOSCEN T3CKPS TMR3CS ]
+[s S711 :3 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S711 . . T3OSCEN T3CKPS0 T3CKPS1 TMR3CS0 TMR3CS1 ]
+[s S712 :7 `uc 1 :1 `uc 1 ]
+[n S712 . . RD163 ]
+[s S713 :3 `uc 1 :1 `uc 1 ]
+[n S713 . . SOSCEN3 ]
+[u S708 `S709 1 `S710 1 `S711 1 `S712 1 `S713 1 ]
+[n S708 . . . . . . ]
+"4269
+[v _T3CONbits `VS708 ~T0 0 e@4017 ]
+"8938
+[v _TMR3ON `Vb ~T0 0 e@32136 ]
+[s S78 :2 `uc 1 :1 `uc 1 ]
+[n S78 . . NOT_T5SYNC ]
+[s S79 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :2 `uc 1 :2 `uc 1 ]
+[n S79 . TMR5ON T5RD16 nT5SYNC T5SOSCEN T5CKPS TMR5CS ]
+[s S80 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S80 . . T5SYNC . T5CKPS0 T5CKPS1 TMR5CS0 TMR5CS1 ]
+[s S81 :1 `uc 1 :1 `uc 1 ]
+[n S81 . . RD165 ]
+[s S82 :3 `uc 1 :1 `uc 1 ]
+[n S82 . . SOSCEN5 ]
+[u S77 `S78 1 `S79 1 `S80 1 `S81 1 `S82 1 ]
+[n S77 . . . . . . ]
+"619
+[v _T5CONbits `VS77 ~T0 0 e@3918 ]
+"8970
+[v _TMR5ON `Vb ~T0 0 e@31344 ]
+"7312
+[v _CCP1MD `Vb ~T0 0 e@31216 ]
+"7298
+[v _CCP1IE `Vb ~T0 0 e@31978 ]
+[s S63 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 :2 `uc 1 ]
+[n S63 . C1TSEL . C2TSEL . C3TSEL ]
+[s S64 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S64 . C1TSEL0 C1TSEL1 . C2TSEL0 C2TSEL1 . C3TSEL0 C3TSEL1 ]
+[u S62 `S63 1 `S64 1 ]
+[n S62 . . . ]
+"502
+[v _CCPTMRS0bits `VS62 ~T0 0 e@3913 ]
+"7338
+[v _CCP2MD `Vb ~T0 0 e@31217 ]
+"7324
+[v _CCP2IE `Vb ~T0 0 e@32000 ]
+"69
+[v _ANSELD `Vuc ~T0 0 e@3899 ]
+[s S852 :3 `uc 1 :3 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S852 . ADCS ACQT . ADFM ]
+[s S853 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S853 . ADCS0 ADCS1 ADCS2 ACQT0 ACQT1 ACQT2 ]
+[u S851 `S852 1 `S853 1 ]
+[n S851 . . . ]
+"5023
+[v _ADCON2bits `VS851 ~T0 0 e@4032 ]
+[s S855 :2 `uc 1 :2 `uc 1 :3 `uc 1 :1 `uc 1 ]
+[n S855 . NVCFG PVCFG . TRIGSEL ]
+[s S856 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S856 . NVCFG0 NVCFG1 PVCFG0 PVCFG1 ]
+[s S857 :3 `uc 1 :1 `uc 1 ]
+[n S857 . . CHSN3 ]
+[u S854 `S855 1 `S856 1 `S857 1 ]
+[n S854 . . . . ]
+"5048
+[v _ADCON1bits `VS854 ~T0 0 e@4033 ]
+"1984
+[v _SPBRGH2 `Vuc ~T0 0 e@3958 ]
+"1961
+[v _SPBRG2 `Vuc ~T0 0 e@3957 ]
+"1844
+[v _TXSTA2 `Vuc ~T0 0 e@3954 ]
+"1757
+[v _RCSTA2 `Vuc ~T0 0 e@3953 ]
+"1634
+[v _BAUDCON2 `Vuc ~T0 0 e@3952 ]
+"8324
+[v _RC2IE `Vb ~T0 0 e@32029 ]
+"4071
+[v _TXREG1 `Vuc ~T0 0 e@4013 ]
+"9056
+[v _TRMT1 `Vb ~T0 0 e@32097 ]
+"17
+[v _ANSELA `Vuc ~T0 0 e@3896 ]
+"34
+[v _ANSELB `Vuc ~T0 0 e@3897 ]
+"51
+[v _ANSELC `Vuc ~T0 0 e@3898 ]
+"88
+[v _ANSELE `Vuc ~T0 0 e@3900 ]
+"3106
+[v _TRISA `Vuc ~T0 0 e@3986 ]
+"3169
+[v _TRISB `Vuc ~T0 0 e@3987 ]
+"3232
+[v _TRISC `Vuc ~T0 0 e@3988 ]
+"3295
+[v _TRISD `Vuc ~T0 0 e@3989 ]
+"3358
+[v _TRISE `Vuc ~T0 0 e@3990 ]
+"2410
+[v _PORTA `Vuc ~T0 0 e@3968 ]
+"2502
+[v _PORTB `Vuc ~T0 0 e@3969 ]
+"2577
+[v _PORTC `Vuc ~T0 0 e@3970 ]
+"2657
+[v _PORTD `Vuc ~T0 0 e@3971 ]
+"2725
+[v _PORTE `Vuc ~T0 0 e@3972 ]
+"4194
+[v _SPBRGH1 `Vuc ~T0 0 e@4016 ]
+"4153
+[v _SPBRG1 `Vuc ~T0 0 e@4015 ]
+"3967
+[v _TXSTA1 `Vuc ~T0 0 e@4012 ]
+"3827
+[v _RCSTA1 `Vuc ~T0 0 e@4011 ]
+"4506
+[v _BAUDCON1 `Vuc ~T0 0 e@4024 ]
+"8318
+[v _RC1IE `Vb ~T0 0 e@31981 ]
+"7666
+[v _GIE `Vb ~T0 0 e@32663 ]
+[s S511 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S511 . LATD0 LATD1 LATD2 LATD3 LATD4 LATD5 LATD6 LATD7 ]
+[s S512 :8 `uc 1 ]
+[n S512 . LATD ]
+[s S513 :1 `uc 1 ]
+[n S513 . LD0 ]
+[s S514 :1 `uc 1 :1 `uc 1 ]
+[n S514 . . LD1 ]
+[s S515 :2 `uc 1 :1 `uc 1 ]
+[n S515 . . LD2 ]
+[s S516 :3 `uc 1 :1 `uc 1 ]
+[n S516 . . LD3 ]
+[s S517 :4 `uc 1 :1 `uc 1 ]
+[n S517 . . LD4 ]
+[s S518 :5 `uc 1 :1 `uc 1 ]
+[n S518 . . LD5 ]
+[s S519 :6 `uc 1 :1 `uc 1 ]
+[n S519 . . LD6 ]
+[s S520 :7 `uc 1 :1 `uc 1 ]
+[n S520 . . LD7 ]
+[u S510 `S511 1 `S512 1 `S513 1 `S514 1 `S515 1 `S516 1 `S517 1 `S518 1 `S519 1 `S520 1 ]
+[n S510 . . . . . . . . . . . ]
+"3055
+[v _LATDbits `VS510 ~T0 0 e@3980 ]
+"130 C:\Program Files (x86)\HI-TECH Software\PICC-18\9.80\include\stdlib.h
+[v _abs `(i ~T0 0 ef1`i ]
+[s S431 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S431 . RC0 RC1 RC2 RC3 RC4 RC5 RC6 RC7 ]
+[s S432 :8 `uc 1 ]
+[n S432 . RC ]
+[s S433 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S433 . T1OSO T1OSI T5CKI SCK SDI SDO TX RX ]
+[s S434 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S434 . P2B P2A P1A SCL SDA . CK DT ]
+[s S435 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S435 . T1CKI CCP2 CCP1 SCK1 SDI1 SDO1 TX1 RX1 ]
+[s S436 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S436 . T3CKI . CTPLS SCL1 SDA1 . CK1 DT1 ]
+[s S437 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S437 . T3G . AN14 AN15 AN16 AN17 AN18 AN19 ]
+[s S438 :2 `uc 1 :1 `uc 1 ]
+[n S438 . . PA1 ]
+[s S439 :1 `uc 1 :1 `uc 1 ]
+[n S439 . . PA2 ]
+[u S430 `S431 1 `S432 1 `S433 1 `S434 1 `S435 1 `S436 1 `S437 1 `S438 1 `S439 1 ]
+[n S430 . . . . . . . . . . ]
+"2654 C:\Program Files (x86)\HI-TECH Software\PICC-18\9.80\include\pic18f45k22.h
+[v _PORTCbits `VS430 ~T0 0 e@3970 ]
+[s S450 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S450 . RE0 RE1 RE2 RE3 ]
+[s S451 :8 `uc 1 ]
+[n S451 . RE ]
+[s S452 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S452 . AN5 AN6 AN7 MCLR ]
+[s S453 :3 `uc 1 :1 `uc 1 ]
+[n S453 . . NOT_MCLR ]
+[s S454 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S454 . P3A P3B CCP5 nMCLR ]
+[s S455 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S455 . CCP3 . VPP ]
+[s S456 :2 `uc 1 :1 `uc 1 ]
+[n S456 . . CCP10 ]
+[s S457 :7 `uc 1 :1 `uc 1 ]
+[n S457 . . CCP2E ]
+[s S458 :6 `uc 1 :1 `uc 1 ]
+[n S458 . . CCP6E ]
+[s S459 :5 `uc 1 :1 `uc 1 ]
+[n S459 . . CCP7E ]
+[s S460 :4 `uc 1 :1 `uc 1 ]
+[n S460 . . CCP8E ]
+[s S461 :3 `uc 1 :1 `uc 1 ]
+[n S461 . . CCP9E ]
+[s S462 :2 `uc 1 :1 `uc 1 ]
+[n S462 . . CS ]
+[s S463 :7 `uc 1 :1 `uc 1 ]
+[n S463 . . PA2E ]
+[s S464 :6 `uc 1 :1 `uc 1 ]
+[n S464 . . PB1E ]
+[s S465 :2 `uc 1 :1 `uc 1 ]
+[n S465 . . PB2 ]
+[s S466 :4 `uc 1 :1 `uc 1 ]
+[n S466 . . PB3E ]
+[s S467 :5 `uc 1 :1 `uc 1 ]
+[n S467 . . PC1E ]
+[s S468 :1 `uc 1 :1 `uc 1 ]
+[n S468 . . PC2 ]
+[s S469 :3 `uc 1 :1 `uc 1 ]
+[n S469 . . PC3E ]
+[s S470 :1 `uc 1 ]
+[n S470 . PD2 ]
+[s S471 :1 `uc 1 ]
+[n S471 . RDE ]
+[s S472 :4 `uc 1 :1 `uc 1 ]
+[n S472 . . RE4 ]
+[s S473 :5 `uc 1 :1 `uc 1 ]
+[n S473 . . RE5 ]
+[s S474 :6 `uc 1 :1 `uc 1 ]
+[n S474 . . RE6 ]
+[s S475 :7 `uc 1 :1 `uc 1 ]
+[n S475 . . RE7 ]
+[s S476 :1 `uc 1 :1 `uc 1 ]
+[n S476 . . WRE ]
+[u S449 `S450 1 `S451 1 `S452 1 `S453 1 `S454 1 `S455 1 `S456 1 `S457 1 `S458 1 `S459 1 `S460 1 `S461 1 `S462 1 `S463 1 `S464 1 `S465 1 `S466 1 `S467 1 `S468 1 `S469 1 `S470 1 `S471 1 `S472 1 `S473 1 `S474 1 `S475 1 `S476 1 ]
+[n S449 . . . . . . . . . . . . . . . . . . . . . . . . . . . . ]
+"2843
+[v _PORTEbits `VS449 ~T0 0 e@3972 ]
+[s S441 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S441 . RD0 RD1 RD2 RD3 RD4 RD5 RD6 RD7 ]
+[s S442 :8 `uc 1 ]
+[n S442 . RD ]
+[s S443 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S443 . . P2B P2C P2D P1B P1C P1D ]
+[s S444 :1 `uc 1 :1 `uc 1 :4 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S444 . . CCP4 . TX2 RX2 ]
+[s S445 :3 `uc 1 :1 `uc 1 ]
+[n S445 . . NOT_SS2 ]
+[s S446 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S446 . SCK2 SDI2 . nSS2 SDO2 . CK2 DT2 ]
+[s S447 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S447 . SCL2 SDA2 . SS2 ]
+[s S448 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S448 . AN20 AN21 AN22 AN23 AN24 AN25 AN26 AN27 ]
+[u S440 `S441 1 `S442 1 `S443 1 `S444 1 `S445 1 `S446 1 `S447 1 `S448 1 ]
+[n S440 . . . . . . . . . ]
+"2722
+[v _PORTDbits `VS440 ~T0 0 e@3971 ]
+[s S405 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S405 . RA0 RA1 RA2 RA3 RA4 RA5 RA6 RA7 ]
+[s S406 :8 `uc 1 ]
+[n S406 . RA ]
+[s S407 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S407 . AN0 AN1 AN2 AN3 . AN4 ]
+[s S408 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S408 . C12IN0M C12IN1M C2INP C1INP C1OUT C2OUT ]
+[s S409 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S409 . C12IN0N C12IN1N VREFM VREFP T0CKI SS ]
+[s S410 :5 `uc 1 :1 `uc 1 ]
+[n S410 . . NOT_SS ]
+[s S411 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S411 . . VREFN . SRQ nSS ]
+[s S412 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S412 . . CVREF . LVDIN ]
+[s S413 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S413 . . DACOUT . HLVDIN ]
+[s S414 :5 `uc 1 :1 `uc 1 ]
+[n S414 . . SS1 ]
+[s S415 :5 `uc 1 :1 `uc 1 ]
+[n S415 . . NOT_SS1 ]
+[s S416 :5 `uc 1 :1 `uc 1 ]
+[n S416 . . nSS1 ]
+[s S417 :5 `uc 1 :1 `uc 1 ]
+[n S417 . . SRNQ ]
+[s S418 :7 `uc 1 :1 `uc 1 ]
+[n S418 . . RJPU ]
+[s S419 :1 `uc 1 ]
+[n S419 . ULPWUIN ]
+[u S404 `S405 1 `S406 1 `S407 1 `S408 1 `S409 1 `S410 1 `S411 1 `S412 1 `S413 1 `S414 1 `S415 1 `S416 1 `S417 1 `S418 1 `S419 1 ]
+[n S404 . . . . . . . . . . . . . . . . ]
+"2499
+[v _PORTAbits `VS404 ~T0 0 e@3968 ]
+[s S421 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S421 . RB0 RB1 RB2 RB3 RB4 RB5 RB6 RB7 ]
+[s S422 :8 `uc 1 ]
+[n S422 . RB ]
+[s S423 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S423 . INT0 INT1 INT2 CCP2 KBI0 KBI1 KBI2 KBI3 ]
+[s S424 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S424 . AN12 AN10 AN8 AN9 AN11 AN13 PGC PGD ]
+[s S425 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S425 . FLT0 C12IN3M . C12IN2M T5G T1G ]
+[s S426 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S426 . SRI C12IN3N . C12IN2N . CCP3 ]
+[s S427 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S427 . . CTED1 CTED2 . T3CKI ]
+[s S428 :3 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S428 . . P2A . P3A ]
+[s S429 :3 `uc 1 :1 `uc 1 ]
+[n S429 . . CCP2_PA2 ]
+[u S420 `S421 1 `S422 1 `S423 1 `S424 1 `S425 1 `S426 1 `S427 1 `S428 1 `S429 1 ]
+[n S420 . . . . . . . . . . ]
+"2574
+[v _PORTBbits `VS420 ~T0 0 e@3969 ]
+"4943
+[v _CCP1CON `Vuc ~T0 0 e@4029 ]
+[s S843 :4 `uc 1 :2 `uc 1 :2 `uc 1 ]
+[n S843 . CCP1M DC1B P1M ]
+[s S844 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S844 . CCP1M0 CCP1M1 CCP1M2 CCP1M3 DC1B0 DC1B1 P1M0 P1M1 ]
+[u S842 `S843 1 `S844 1 ]
+[n S842 . . . ]
+"4964
+[v _CCP1CONbits `VS842 ~T0 0 e@4029 ]
+"7300
+[v _CCP1IF `Vb ~T0 0 e@31986 ]
+"4967
+[v _CCPR1 `Vus ~T0 0 e@4030 ]
+"1195
+[v _CCP2CON `Vuc ~T0 0 e@3942 ]
+[s S173 :4 `uc 1 :2 `uc 1 :2 `uc 1 ]
+[n S173 . CCP2M DC2B P2M ]
+[s S174 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S174 . CCP2M0 CCP2M1 CCP2M2 CCP2M3 DC2B0 DC2B1 P2M0 P2M1 ]
+[u S172 `S173 1 `S174 1 ]
+[n S172 . . . ]
+"1216
+[v _CCP2CONbits `VS172 ~T0 0 e@3942 ]
+"7326
+[v _CCP2IF `Vb ~T0 0 e@32008 ]
+"1219
+[v _CCPR2 `Vus ~T0 0 e@3943 ]
+"8080
+[v _OERR2 `Vb ~T0 0 e@31625 ]
+"7474
+[v _CREN2 `Vb ~T0 0 e@31628 ]
+"8326
+[v _RC2IF `Vb ~T0 0 e@32037 ]
+"1938
+[v _RCREG2 `Vuc ~T0 0 e@3956 ]
+[p mainexit ]
+"7780
+[v _IPEN `Vb ~T0 0 e@32391 ]
+"8250
+[v _PEIE `Vb ~T0 0 e@32662 ]
+[s S500 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S500 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
+[s S501 :8 `uc 1 ]
+[n S501 . LATC ]
+[s S502 :1 `uc 1 ]
+[n S502 . LC0 ]
+[s S503 :1 `uc 1 :1 `uc 1 ]
+[n S503 . . LC1 ]
+[s S504 :2 `uc 1 :1 `uc 1 ]
+[n S504 . . LC2 ]
+[s S505 :3 `uc 1 :1 `uc 1 ]
+[n S505 . . LC3 ]
+[s S506 :4 `uc 1 :1 `uc 1 ]
+[n S506 . . LC4 ]
+[s S507 :5 `uc 1 :1 `uc 1 ]
+[n S507 . . LC5 ]
+[s S508 :6 `uc 1 :1 `uc 1 ]
+[n S508 . . LC6 ]
+[s S509 :7 `uc 1 :1 `uc 1 ]
+[n S509 . . LC7 ]
+[u S499 `S500 1 `S501 1 `S502 1 `S503 1 `S504 1 `S505 1 `S506 1 `S507 1 `S508 1 `S509 1 ]
+[n S499 . . . . . . . . . . . ]
+"3002
+[v _LATCbits `VS499 ~T0 0 e@3979 ]
+"8962
+[v _TMR5IE `Vb ~T0 0 e@31721 ]
+"19 C:\Program Files (x86)\HI-TECH Software\PICC-18\9.80\include\pic18f45k22.h
+[; <" ANSELA equ 0F38h ;# ">
+"36
+[; <" ANSELB equ 0F39h ;# ">
+"53
+[; <" ANSELC equ 0F3Ah ;# ">
+"71
+[; <" ANSELD equ 0F3Bh ;# ">
+"90
+[; <" ANSELE equ 0F3Ch ;# ">
+"104
+[; <" PMD2 equ 0F3Dh ;# ">
+"119
+[; <" PMD1 equ 0F3Eh ;# ">
+"141
+[; <" PMD0 equ 0F3Fh ;# ">
+"168
+[; <" VREFCON2 equ 0F40h ;# ">
+"173
+[; <" DACCON1 equ 0F40h ;# ">
+"205
+[; <" VREFCON1 equ 0F41h ;# ">
+"210
+[; <" DACCON0 equ 0F41h ;# ">
+"250
+[; <" VREFCON0 equ 0F42h ;# ">
+"255
+[; <" FVRCON equ 0F42h ;# ">
+"289
+[; <" CTMUICON equ 0F43h ;# ">
+"294
+[; <" CTMUICONH equ 0F43h ;# ">
+"334
+[; <" CTMUCONL equ 0F44h ;# ">
+"339
+[; <" CTMUCON1 equ 0F44h ;# ">
+"383
+[; <" CTMUCONH equ 0F45h ;# ">
+"388
+[; <" CTMUCON0 equ 0F45h ;# ">
+"420
+[; <" SRCON1 equ 0F46h ;# ">
+"439
+[; <" SRCON0 equ 0F47h ;# ">
+"462
+[; <" CCPTMRS1 equ 0F48h ;# ">
+"481
+[; <" CCPTMRS0 equ 0F49h ;# ">
+"507
+[; <" T6CON equ 0F4Ah ;# ">
+"530
+[; <" PR6 equ 0F4Bh ;# ">
+"542
+[; <" TMR6 equ 0F4Ch ;# ">
+"554
+[; <" T5GCON equ 0F4Dh ;# ">
+"586
+[; <" T5CON equ 0F4Eh ;# ">
+"624
+[; <" TMR5 equ 0F4Fh ;# ">
+"630
+[; <" TMR5L equ 0F4Fh ;# ">
+"642
+[; <" TMR5H equ 0F50h ;# ">
+"654
+[; <" T4CON equ 0F51h ;# ">
+"677
+[; <" PR4 equ 0F52h ;# ">
+"689
+[; <" TMR4 equ 0F53h ;# ">
+"701
+[; <" CCP5CON equ 0F54h ;# ">
+"722
+[; <" CCPR5 equ 0F55h ;# ">
+"728
+[; <" CCPR5L equ 0F55h ;# ">
+"740
+[; <" CCPR5H equ 0F56h ;# ">
+"752
+[; <" CCP4CON equ 0F57h ;# ">
+"773
+[; <" CCPR4 equ 0F58h ;# ">
+"779
+[; <" CCPR4L equ 0F58h ;# ">
+"791
+[; <" CCPR4H equ 0F59h ;# ">
+"803
+[; <" PSTR3CON equ 0F5Ah ;# ">
+"838
+[; <" ECCP3AS equ 0F5Bh ;# ">
+"843
+[; <" CCP3AS equ 0F5Bh ;# ">
+"905
+[; <" PWM3CON equ 0F5Ch ;# ">
+"927
+[; <" CCP3CON equ 0F5Dh ;# ">
+"951
+[; <" CCPR3 equ 0F5Eh ;# ">
+"957
+[; <" CCPR3L equ 0F5Eh ;# ">
+"969
+[; <" CCPR3H equ 0F5Fh ;# ">
+"981
+[; <" SLRCON equ 0F60h ;# ">
+"997
+[; <" WPUB equ 0F61h ;# ">
+"1019
+[; <" IOCB equ 0F62h ;# ">
+"1035
+[; <" PSTR2CON equ 0F63h ;# ">
+"1108
+[; <" ECCP2AS equ 0F64h ;# ">
+"1113
+[; <" CCP2AS equ 0F64h ;# ">
+"1175
+[; <" PWM2CON equ 0F65h ;# ">
+"1197
+[; <" CCP2CON equ 0F66h ;# ">
+"1221
+[; <" CCPR2 equ 0F67h ;# ">
+"1233
+[; <" CCPR2L equ 0F67h ;# ">
+"1245
+[; <" CCPR2H equ 0F68h ;# ">
+"1257
+[; <" SSP2CON3 equ 0F69h ;# ">
+"1276
+[; <" SSP2MSK equ 0F6Ah ;# ">
+"1298
+[; <" SSP2CON2 equ 0F6Bh ;# ">
+"1368
+[; <" SSP2CON1 equ 0F6Ch ;# ">
+"1421
+[; <" SSP2STAT equ 0F6Dh ;# ">
+"1581
+[; <" SSP2ADD equ 0F6Eh ;# ">
+"1624
+[; <" SSP2BUF equ 0F6Fh ;# ">
+"1636
+[; <" BAUDCON2 equ 0F70h ;# ">
+"1641
+[; <" BAUD2CON equ 0F70h ;# ">
+"1759
+[; <" RCSTA2 equ 0F71h ;# ">
+"1764
+[; <" RC2STA equ 0F71h ;# ">
+"1846
+[; <" TXSTA2 equ 0F72h ;# ">
+"1851
+[; <" TX2STA equ 0F72h ;# ">
+"1917
+[; <" TXREG2 equ 0F73h ;# ">
+"1922
+[; <" TX2REG equ 0F73h ;# ">
+"1940
+[; <" RCREG2 equ 0F74h ;# ">
+"1945
+[; <" RC2REG equ 0F74h ;# ">
+"1963
+[; <" SPBRG2 equ 0F75h ;# ">
+"1968
+[; <" SP2BRG equ 0F75h ;# ">
+"1986
+[; <" SPBRGH2 equ 0F76h ;# ">
+"1991
+[; <" SP2BRGH equ 0F76h ;# ">
+"2009
+[; <" CM2CON1 equ 0F77h ;# ">
+"2014
+[; <" CM12CON equ 0F77h ;# ">
+"2046
+[; <" CM2CON0 equ 0F78h ;# ">
+"2051
+[; <" CM2CON equ 0F78h ;# ">
+"2151
+[; <" CM1CON0 equ 0F79h ;# ">
+"2156
+[; <" CM1CON equ 0F79h ;# ">
+"2318
+[; <" PIE4 equ 0F7Ah ;# ">
+"2332
+[; <" PIR4 equ 0F7Bh ;# ">
+"2346
+[; <" IPR4 equ 0F7Ch ;# ">
+"2363
+[; <" PIE5 equ 0F7Dh ;# ">
+"2377
+[; <" PIR5 equ 0F7Eh ;# ">
+"2391
+[; <" IPR5 equ 0F7Fh ;# ">
+"2412
+[; <" PORTA equ 0F80h ;# ">
+"2504
+[; <" PORTB equ 0F81h ;# ">
+"2579
+[; <" PORTC equ 0F82h ;# ">
+"2659
+[; <" PORTD equ 0F83h ;# ">
+"2727
+[; <" PORTE equ 0F84h ;# ">
+"2848
+[; <" LATA equ 0F89h ;# ">
+"2901
+[; <" LATB equ 0F8Ah ;# ">
+"2954
+[; <" LATC equ 0F8Bh ;# ">
+"3007
+[; <" LATD equ 0F8Ch ;# ">
+"3060
+[; <" LATE equ 0F8Dh ;# ">
+"3108
+[; <" TRISA equ 0F92h ;# ">
+"3113
+[; <" DDRA equ 0F92h ;# ">
+"3171
+[; <" TRISB equ 0F93h ;# ">
+"3176
+[; <" DDRB equ 0F93h ;# ">
+"3234
+[; <" TRISC equ 0F94h ;# ">
+"3239
+[; <" DDRC equ 0F94h ;# ">
+"3297
+[; <" TRISD equ 0F95h ;# ">
+"3302
+[; <" DDRD equ 0F95h ;# ">
+"3360
+[; <" TRISE equ 0F96h ;# ">
+"3365
+[; <" DDRE equ 0F96h ;# ">
+"3407
+[; <" OSCTUNE equ 0F9Bh ;# ">
+"3429
+[; <" HLVDCON equ 0F9Ch ;# ">
+"3434
+[; <" LVDCON equ 0F9Ch ;# ">
+"3504
+[; <" PIE1 equ 0F9Dh ;# ">
+"3528
+[; <" PIR1 equ 0F9Eh ;# ">
+"3552
+[; <" IPR1 equ 0F9Fh ;# ">
+"3576
+[; <" PIE2 equ 0FA0h ;# ">
+"3604
+[; <" PIR2 equ 0FA1h ;# ">
+"3632
+[; <" IPR2 equ 0FA2h ;# ">
+"3660
+[; <" PIE3 equ 0FA3h ;# ">
+"3706
+[; <" PIR3 equ 0FA4h ;# ">
+"3733
+[; <" IPR3 equ 0FA5h ;# ">
+"3760
+[; <" EECON1 equ 0FA6h ;# ">
+"3783
+[; <" EECON2 equ 0FA7h ;# ">
+"3795
+[; <" EEDATA equ 0FA8h ;# ">
+"3807
+[; <" EEADR equ 0FA9h ;# ">
+"3829
+[; <" RCSTA1 equ 0FABh ;# ">
+"3834
+[; <" RCSTA equ 0FABh ;# ">
+"3838
+[; <" RC1STA equ 0FABh ;# ">
+"3969
+[; <" TXSTA1 equ 0FACh ;# ">
+"3974
+[; <" TXSTA equ 0FACh ;# ">
+"3978
+[; <" TX1STA equ 0FACh ;# ">
+"4073
+[; <" TXREG1 equ 0FADh ;# ">
+"4078
+[; <" TXREG equ 0FADh ;# ">
+"4082
+[; <" TX1REG equ 0FADh ;# ">
+"4114
+[; <" RCREG1 equ 0FAEh ;# ">
+"4119
+[; <" RCREG equ 0FAEh ;# ">
+"4123
+[; <" RC1REG equ 0FAEh ;# ">
+"4155
+[; <" SPBRG1 equ 0FAFh ;# ">
+"4160
+[; <" SPBRG equ 0FAFh ;# ">
+"4164
+[; <" SP1BRG equ 0FAFh ;# ">
+"4196
+[; <" SPBRGH1 equ 0FB0h ;# ">
+"4201
+[; <" SPBRGH equ 0FB0h ;# ">
+"4205
+[; <" SP1BRGH equ 0FB0h ;# ">
+"4237
+[; <" T3CON equ 0FB1h ;# ">
+"4274
+[; <" TMR3 equ 0FB2h ;# ">
+"4286
+[; <" TMR3L equ 0FB2h ;# ">
+"4298
+[; <" TMR3H equ 0FB3h ;# ">
+"4310
+[; <" T3GCON equ 0FB4h ;# ">
+"4342
+[; <" ECCP1AS equ 0FB6h ;# ">
+"4347
+[; <" ECCPAS equ 0FB6h ;# ">
+"4439
+[; <" PWM1CON equ 0FB7h ;# ">
+"4444
+[; <" PWMCON equ 0FB7h ;# ">
+"4508
+[; <" BAUDCON1 equ 0FB8h ;# ">
+"4513
+[; <" BAUDCON equ 0FB8h ;# ">
+"4517
+[; <" BAUDCTL equ 0FB8h ;# ">
+"4521
+[; <" BAUD1CON equ 0FB8h ;# ">
+"4829
+[; <" PSTR1CON equ 0FB9h ;# ">
+"4834
+[; <" PSTRCON equ 0FB9h ;# ">
+"4898
+[; <" T2CON equ 0FBAh ;# ">
+"4921
+[; <" PR2 equ 0FBBh ;# ">
+"4933
+[; <" TMR2 equ 0FBCh ;# ">
+"4945
+[; <" CCP1CON equ 0FBDh ;# ">
+"4969
+[; <" CCPR1 equ 0FBEh ;# ">
+"4981
+[; <" CCPR1L equ 0FBEh ;# ">
+"4993
+[; <" CCPR1H equ 0FBFh ;# ">
+"5005
+[; <" ADCON2 equ 0FC0h ;# ">
+"5028
+[; <" ADCON1 equ 0FC1h ;# ">
+"5053
+[; <" ADCON0 equ 0FC2h ;# ">
+"5109
+[; <" ADRES equ 0FC3h ;# ">
+"5121
+[; <" ADRESL equ 0FC3h ;# ">
+"5133
+[; <" ADRESH equ 0FC4h ;# ">
+"5145
+[; <" SSP1CON2 equ 0FC5h ;# ">
+"5150
+[; <" SSPCON2 equ 0FC5h ;# ">
+"5324
+[; <" SSP1CON1 equ 0FC6h ;# ">
+"5329
+[; <" SSPCON1 equ 0FC6h ;# ">
+"5429
+[; <" SSP1STAT equ 0FC7h ;# ">
+"5434
+[; <" SSPSTAT equ 0FC7h ;# ">
+"5716
+[; <" SSP1ADD equ 0FC8h ;# ">
+"5721
+[; <" SSPADD equ 0FC8h ;# ">
+"5869
+[; <" SSP1BUF equ 0FC9h ;# ">
+"5874
+[; <" SSPBUF equ 0FC9h ;# ">
+"5898
+[; <" SSP1MSK equ 0FCAh ;# ">
+"5903
+[; <" SSPMSK equ 0FCAh ;# ">
+"5947
+[; <" SSP1CON3 equ 0FCBh ;# ">
+"5952
+[; <" SSPCON3 equ 0FCBh ;# ">
+"5984
+[; <" T1GCON equ 0FCCh ;# ">
+"6016
+[; <" T1CON equ 0FCDh ;# ">
+"6051
+[; <" TMR1 equ 0FCEh ;# ">
+"6063
+[; <" TMR1L equ 0FCEh ;# ">
+"6075
+[; <" TMR1H equ 0FCFh ;# ">
+"6087
+[; <" RCON equ 0FD0h ;# ">
+"6132
+[; <" WDTCON equ 0FD1h ;# ">
+"6147
+[; <" OSCCON2 equ 0FD2h ;# ">
+"6166
+[; <" OSCCON equ 0FD3h ;# ">
+"6191
+[; <" T0CON equ 0FD5h ;# ">
+"6213
+[; <" TMR0 equ 0FD6h ;# ">
+"6225
+[; <" TMR0L equ 0FD6h ;# ">
+"6237
+[; <" TMR0H equ 0FD7h ;# ">
+"6249
+[; <" STATUS equ 0FD8h ;# ">
+"6280
+[; <" FSR2 equ 0FD9h ;# ">
+"6292
+[; <" FSR2L equ 0FD9h ;# ">
+"6304
+[; <" FSR2H equ 0FDAh ;# ">
+"6316
+[; <" PLUSW2 equ 0FDBh ;# ">
+"6328
+[; <" PREINC2 equ 0FDCh ;# ">
+"6340
+[; <" POSTDEC2 equ 0FDDh ;# ">
+"6352
+[; <" POSTINC2 equ 0FDEh ;# ">
+"6364
+[; <" INDF2 equ 0FDFh ;# ">
+"6376
+[; <" BSR equ 0FE0h ;# ">
+"6388
+[; <" FSR1 equ 0FE1h ;# ">
+"6400
+[; <" FSR1L equ 0FE1h ;# ">
+"6412
+[; <" FSR1H equ 0FE2h ;# ">
+"6424
+[; <" PLUSW1 equ 0FE3h ;# ">
+"6436
+[; <" PREINC1 equ 0FE4h ;# ">
+"6448
+[; <" POSTDEC1 equ 0FE5h ;# ">
+"6460
+[; <" POSTINC1 equ 0FE6h ;# ">
+"6472
+[; <" INDF1 equ 0FE7h ;# ">
+"6484
+[; <" WREG equ 0FE8h ;# ">
+"6507
+[; <" FSR0 equ 0FE9h ;# ">
+"6519
+[; <" FSR0L equ 0FE9h ;# ">
+"6531
+[; <" FSR0H equ 0FEAh ;# ">
+"6543
+[; <" PLUSW0 equ 0FEBh ;# ">
+"6555
+[; <" PREINC0 equ 0FECh ;# ">
+"6567
+[; <" POSTDEC0 equ 0FEDh ;# ">
+"6579
+[; <" POSTINC0 equ 0FEEh ;# ">
+"6591
+[; <" INDF0 equ 0FEFh ;# ">
+"6603
+[; <" INTCON3 equ 0FF0h ;# ">
+"6632
+[; <" INTCON2 equ 0FF1h ;# ">
+"6659
+[; <" INTCON equ 0FF2h ;# ">
+"6708
+[; <" PROD equ 0FF3h ;# ">
+"6720
+[; <" PRODL equ 0FF3h ;# ">
+"6732
+[; <" PRODH equ 0FF4h ;# ">
+"6744
+[; <" TABLAT equ 0FF5h ;# ">
+"6756
+[; <" TBLPTR equ 0FF6h ;# ">
+"6769
+[; <" TBLPTRL equ 0FF6h ;# ">
+"6781
+[; <" TBLPTRH equ 0FF7h ;# ">
+"6793
+[; <" TBLPTRU equ 0FF8h ;# ">
+"6809
+[; <" PCLAT equ 0FF9h ;# ">
+"6814
+[; <" PC equ 0FF9h ;# ">
+"6832
+[; <" PCL equ 0FF9h ;# ">
+"6844
+[; <" PCLATH equ 0FFAh ;# ">
+"6856
+[; <" PCLATU equ 0FFBh ;# ">
+"6868
+[; <" STKPTR equ 0FFCh ;# ">
+"6899
+[; <" TOS equ 0FFDh ;# ">
+"6911
+[; <" TOSL equ 0FFDh ;# ">
+"6923
+[; <" TOSH equ 0FFEh ;# ">
+"6935
+[; <" TOSU equ 0FFFh ;# ">
+"16 D:\PR406 - Sensores Plasma\PR406V1 - Sensores Plasma\Firmware\src\main.c
+[p x IESO=OFF ]
+[p x FOSC=HSMP ]
+[p x PRICLKEN=ON ]
+[p x FCMEN=ON ]
+[p x PLLCFG=ON ]
+"17
+[p x BOREN=SBORDIS ]
+[p x BORV=285 ]
+[p x PWRTEN=ON ]
+[p x WDTPS=1 ]
+[p x WDTEN=OFF ]
+"18
+[p x P2BMX=PORTD2 ]
+[p x CCP2MX=PORTC1 ]
+[p x PBADEN=OFF ]
+[p x CCP3MX=PORTB5 ]
+[p x MCLRE=EXTMCLR ]
+[p x HFOFST=OFF ]
+[p x T3CMX=PORTC0 ]
+"19
+[p x DEBUG=OFF ]
+[p x STVREN=ON ]
+[p x XINST=OFF ]
+[p x LVP=ON ]
+"20
+[p x CP0=OFF ]
+[p x CP1=OFF ]
+[p x CP2=OFF ]
+[p x CP3=OFF ]
+[p x CPD=OFF ]
+[p x CPB=OFF ]
+"21
+[p x WRT0=OFF ]
+[p x WRT1=OFF ]
+[p x WRT2=OFF ]
+[p x WRT3=OFF ]
+[p x WRTB=OFF ]
+[p x WRTC=OFF ]
+[p x WRTD=OFF ]
+"22
+[p x EBTR0=OFF ]
+[p x EBTR1=OFF ]
+[p x EBTR2=OFF ]
+[p x EBTR3=OFF ]
+[p x EBTRB=OFF ]
+"23
+[p x IDLOC0=0x0 ]
+[p x IDLOC1=0x1 ]
+[p x IDLOC2=0x2 ]
+[p x IDLOC3=0x3 ]
+[p x IDLOC4=0x4 ]
+[p x IDLOC5=0x5 ]
+[p x IDLOC6=0x6 ]
+[p x IDLOC7=0x7 ]
+"29
+[v _delayus `(v ~T0 1 ef1`i ]
+{
+[e :U _delayus ]
+[v _t `i ~T0 1 r1 ]
+[f ]
+"30
+[e $U 1212  ]
+[e :U 1213 ]
+{
+[e ( __delay (1 - * / -> 60000000 `ul -> -> 4000000 `l `ul -> -> -> 10 `i `l `ul -> -> -> 25 `i `l `ul ]
+[e =- _t -> 10 `i ]
+}
+[e :U 1212 ]
+[e $ >= _t -> 10 `i 1213  ]
+[e :U 1214 ]
+"31
+[e $U 1215  ]
+[e :U 1216 ]
+[e ( __delay (1 - / -> 60000000 `ul -> -> 4000000 `l `ul -> -> -> 11 `i `l `ul ]
+[e :U 1215 ]
+[e $ != -- _t -> 1 `i -> 0 `i 1216  ]
+[e :U 1217 ]
+"32
+[e :UE 1211 ]
+}
+"34
+[v _delayms `(v ~T0 1 ef1`i ]
+{
+[e :U _delayms ]
+[v _t `i ~T0 1 r1 ]
+[f ]
+"35
+[e $U 1219  ]
+[e :U 1220 ]
+[e ( __delay (1 / -> 60000000 `ul -> -> -> 4000 `i `l `ul ]
+[e :U 1219 ]
+[e $ != -- _t -> 1 `i -> 0 `i 1220  ]
+[e :U 1221 ]
+"36
+[e :UE 1218 ]
+}
+"38
+[v _IniciaTMR2 `(v ~T0 1 ef ]
+{
+[e :U _IniciaTMR2 ]
+[f ]
+"41
+[e = _T2CON -> -> 0 `i `uc ]
+"42
+[e = _TMR2 -> -> 240 `i `uc ]
+"43
+[e = _TMR2IF -> -> 0 `i `b ]
+"44
+[e = _TMR2IP -> -> 1 `i `b ]
+"45
+[e = _TMR2IE -> -> 1 `i `b ]
+"46
+[e = _TMR2ON -> -> 1 `i `b ]
+"47
+[e :UE 1222 ]
+}
+"49
+[v _IniciaTMR6 `(v ~T0 1 ef ]
+{
+[e :U _IniciaTMR6 ]
+[f ]
+"52
+[e = _T6CON -> -> 0 `i `uc ]
+"53
+[e = _TMR6 -> -> 240 `i `uc ]
+"54
+[e = _TMR6IF -> -> 0 `i `b ]
+"55
+[e = _TMR6IP -> -> 1 `i `b ]
+"56
+[e = _TMR6IE -> -> 1 `i `b ]
+"57
+[e = _TMR6ON -> -> 1 `i `b ]
+"58
+[e :UE 1223 ]
+}
+"61
+[v _IniciaTMR3 `(v ~T0 1 ef ]
+{
+[e :U _IniciaTMR3 ]
+[f ]
+"62
+[e = . . _T3CONbits 1 4 -> -> 0 `i `uc ]
+"63
+[e = . . _T3CONbits 1 5 -> -> 0 `i `uc ]
+"64
+[e = . . _T3CONbits 1 1 -> -> 1 `i `uc ]
+"65
+[e = _TMR3ON -> -> 1 `i `b ]
+"66
+[e :UE 1224 ]
+}
+"67
+[v _IniciaTMR5 `(v ~T0 1 ef ]
+{
+[e :U _IniciaTMR5 ]
+[f ]
+"68
+[e = . . _T5CONbits 1 4 -> -> 0 `i `uc ]
+"69
+[e = . . _T5CONbits 1 5 -> -> 0 `i `uc ]
+"70
+[e = . . _T5CONbits 1 1 -> -> 1 `i `uc ]
+"71
+[e = _TMR5ON -> -> 1 `i `b ]
+"72
+[e :UE 1225 ]
+}
+"75
+[v _IniciaCCP1 `(v ~T0 1 ef ]
+{
+[e :U _IniciaCCP1 ]
+[f ]
+"76
+[e = _CCP1MD -> -> 0 `i `b ]
+"77
+[e = _CCP1IE -> -> 1 `i `b ]
+"78
+[e = . . _CCPTMRS0bits 0 0 -> -> 2 `i `uc ]
+"80
+[e :UE 1226 ]
+}
+"82
+[v _IniciaCCP2 `(v ~T0 1 ef ]
+{
+[e :U _IniciaCCP2 ]
+[f ]
+"83
+[e = _CCP2MD -> -> 0 `i `b ]
+"84
+[e = _CCP2IE -> -> 1 `i `b ]
+"85
+[e = . . _CCPTMRS0bits 0 2 -> -> 1 `i `uc ]
+"87
+[e :UE 1227 ]
+}
+"89
+[v _IniciaANALOG `(v ~T0 1 ef ]
+{
+[e :U _IniciaANALOG ]
+[f ]
+"90
+[e = _ANSELD -> -> 9 `i `uc ]
+"91
+[e = . . _ADCON2bits 0 0 -> -> 1 `i `uc ]
+"92
+[e = . . _ADCON1bits 0 1 -> -> 0 `i `uc ]
+"93
+[e = . . _ADCON1bits 0 0 -> -> 0 `i `uc ]
+"94
+[e = . . _ADCON2bits 0 3 -> -> 1 `i `uc ]
+"95
+[e = . . _ADCON2bits 0 1 -> -> 1 `i `uc ]
+"96
+[e :UE 1228 ]
+}
+"114
+[v _IniciaUART2 `(v ~T0 1 ef2`ul`uc ]
+{
+[e :U _IniciaUART2 ]
+[v _baud `ul ~T0 1 r1 ]
+[v _irqon `uc ~T0 1 r2 ]
+[f ]
+"115
+[v _x `ul ~T0 1 a ]
+[e = _x - / -> 60000000 `ul * -> -> -> 4 `i `l `ul _baud -> -> -> 1 `i `l `ul ]
+"116
+[e = _SPBRGH2 -> >> _x -> 8 `i `uc ]
+"117
+[e = _SPBRG2 -> _x `uc ]
+"118
+[e = _TXSTA2 -> | | << -> 1 `ul -> 7 `i << -> 1 `ul -> 5 `i << -> 1 `ul -> 2 `i `uc ]
+"119
+[e = _RCSTA2 -> | << -> 1 `ul -> 7 `i << -> 1 `ul -> 4 `i `uc ]
+"120
+[e = _BAUDCON2 -> << -> 1 `ul -> 3 `i `uc ]
+"121
+[e = _RC2IE -> _irqon `b ]
+"122
+[e :UE 1229 ]
+}
+"125
+[v _tx1 `(v ~T0 1 ef1`uc ]
+{
+[e :U _tx1 ]
+[v _d `uc ~T0 1 r1 ]
+[f ]
+"126
+[e = _TXREG1 _d ]
+"127
+[e $U 1231  ]
+[e :U 1232 ]
+[e :U 1231 ]
+[e $ ! _TRMT1 1232  ]
+[e :U 1233 ]
+"129
+[e :UE 1230 ]
+}
+"131
+[v _IniciaDACX `(v ~T0 1 ef ]
+{
+[e :U _IniciaDACX ]
+[f ]
+"133
+[e = _ANSELA -> -> 0 `i `uc ]
+"134
+[e = _ANSELB -> -> 0 `i `uc ]
+"135
+[e = _ANSELC -> -> 0 `i `uc ]
+"136
+[e = _ANSELD -> -> 0 `i `uc ]
+"137
+[e = _ANSELE -> -> 0 `i `uc ]
+"138
+[e :UE 1234 ]
+}
+"140
+[v _IniciaPIOX `(v ~T0 1 ef ]
+{
+[e :U _IniciaPIOX ]
+[f ]
+"142
+[e = _TRISA -> | | | | | | << -> 1 `ul -> 7 `i << -> 1 `ul -> 6 `i << -> 1 `ul -> 4 `i << -> 1 `ul -> 3 `i << -> 1 `ul -> 2 `i << -> 1 `ul -> 1 `i << -> 1 `ul -> 0 `i `uc ]
+"143
+[e = _TRISB -> | | | | | << -> 1 `ul -> 5 `i << -> 1 `ul -> 4 `i << -> 1 `ul -> 3 `i << -> 1 `ul -> 2 `i << -> 1 `ul -> 1 `i << -> 1 `ul -> 0 `i `uc ]
+"144
+[e = _TRISC -> | | << -> 1 `ul -> 7 `i << -> 1 `ul -> 2 `i << -> 1 `ul -> 1 `i `uc ]
+"145
+[e = _TRISD -> | | | << -> 1 `ul -> 7 `i << -> 1 `ul -> 5 `i << -> 1 `ul -> 3 `i << -> 1 `ul -> 0 `i `uc ]
+"146
+[e = _TRISE -> << -> 1 `ul -> 3 `i `uc ]
+"149
+[e = _PORTA -> -> 0 `i `uc ]
+"150
+[e = _PORTB -> -> 0 `i `uc ]
+"151
+[e = _PORTC -> -> 0 `i `uc ]
+"152
+[e = _PORTD -> -> 0 `i `uc ]
+"153
+[e = _PORTE -> -> 0 `i `uc ]
+"154
+[e :UE 1235 ]
+}
+"158
+[v _IniciaUART1X `(v ~T0 1 ef2`ul`uc ]
+{
+[e :U _IniciaUART1X ]
+[v _baud `ul ~T0 1 r1 ]
+[v _irqon `uc ~T0 1 r2 ]
+[f ]
+"159
+[v _x `ul ~T0 1 a ]
+[e = _x - / -> 60000000 `ul * -> -> -> 4 `i `l `ul _baud -> -> -> 1 `i `l `ul ]
+"160
+[e = _SPBRGH1 -> >> _x -> 8 `i `uc ]
+"161
+[e = _SPBRG1 -> _x `uc ]
+"162
+[e = _TXSTA1 -> | | << -> 1 `ul -> 7 `i << -> 1 `ul -> 5 `i << -> 1 `ul -> 2 `i `uc ]
+"163
+[e = _RCSTA1 -> | << -> 1 `ul -> 7 `i << -> 1 `ul -> 4 `i `uc ]
+"165
+[e = _BAUDCON1 -> << -> 1 `ul -> 3 `i `uc ]
+"166
+[e = _RC1IE -> _irqon `b ]
+"167
+[e :UE 1236 ]
+}
+"170
+[v _showbyte `(v ~T0 1 ef1`uc ]
+{
+[e :U _showbyte ]
+[v _b0 `uc ~T0 1 r1 ]
+[f ]
+"171
+[e = _GIE -> -> 0 `i `b ]
+"172
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+"173
+[e $ ! != & -> _b0 `i -> 128 `i -> 0 `i 1238  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1239  ]
+[e :U 1238 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1239 ]
+"174
+[e $ ! != & -> _b0 `i -> 64 `i -> 0 `i 1240  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1241  ]
+[e :U 1240 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1241 ]
+"175
+[e $ ! != & -> _b0 `i -> 32 `i -> 0 `i 1242  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1243  ]
+[e :U 1242 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1243 ]
+"176
+[e $ ! != & -> _b0 `i -> 16 `i -> 0 `i 1244  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1245  ]
+[e :U 1244 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1245 ]
+"177
+[e $ ! != & -> _b0 `i -> 8 `i -> 0 `i 1246  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1247  ]
+[e :U 1246 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1247 ]
+"178
+[e $ ! != & -> _b0 `i -> 4 `i -> 0 `i 1248  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1249  ]
+[e :U 1248 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1249 ]
+"179
+[e $ ! != & -> _b0 `i -> 2 `i -> 0 `i 1250  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1251  ]
+[e :U 1250 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1251 ]
+"180
+[e $ ! != & -> _b0 `i -> 1 `i -> 0 `i 1252  ]
+[e = . . _LATDbits 0 2 -> -> 1 `i `uc ]
+[e $U 1253  ]
+[e :U 1252 ]
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+[e :U 1253 ]
+"181
+[e = . . _LATDbits 0 2 -> -> 0 `i `uc ]
+"182
+[e = _GIE -> -> 1 `i `b ]
+"183
+[e :UE 1237 ]
+}
+"185
+[v _bloco0 `Vuc ~T0 1 e ]
+[v _bloco1 `Vuc ~T0 1 e ]
+[v _bloco2 `Vuc ~T0 1 e ]
+[v _bloco3 `Vuc ~T0 1 e ]
+[v _bloco4 `Vuc ~T0 1 e ]
+[v _bloco5 `Vuc ~T0 1 e ]
+"186
+[v _bloco `Vuc ~T0 -> 6 `i e ]
+"187
+[v _posicaox `Vuc ~T0 1 e ]
+[i _posicaox
+-> -> 0 `i `uc
+]
+"188
+[v _posicaoy `Vuc ~T0 1 e ]
+[i _posicaoy
+-> -> 0 `i `uc
+]
+"189
+[v _posicaoz `Vuc ~T0 1 e ]
+[i _posicaoz
+-> -> 0 `i `uc
+]
+"190
+[v _enableall `Vuc ~T0 1 e ]
+[i _enableall
+-> -> 0 `i `uc
+]
+"191
+[v _comando `Vuc ~T0 1 e ]
+[i _comando
+-> -> 0 `i `uc
+]
+"192
+[v _comando_old `uc ~T0 1 e ]
+[i _comando_old
+-> -> 0 `i `uc
+]
+"195
+[v _monta_bloco_thc `(v ~T0 1 ef4`uc`uc`uc`uc ]
+{
+[e :U _monta_bloco_thc ]
+[v _a `uc ~T0 1 r1 ]
+[v _b `uc ~T0 1 r2 ]
+[v _c `uc ~T0 1 r3 ]
+[v _d `uc ~T0 1 r4 ]
+[f ]
+"196
+[v _check `us ~T0 1 a ]
+[e = _check -> + + + + -> _a `i -> _b `i -> _c `i -> _d `i -> 30000 `i `us ]
+"198
+[e = _GIE -> -> 0 `i `b ]
+"199
+[; <"  nop ;# ">
+"200
+[e = _bloco0 _a ]
+"201
+[e = _bloco1 _b ]
+"202
+[e = _bloco2 _c ]
+"203
+[e = _bloco3 _d ]
+"204
+[e = _bloco4 -> >> -> _check `ui -> 8 `i `uc ]
+"205
+[e = _bloco5 -> _check `uc ]
+"206
+[e = _GIE -> -> 1 `i `b ]
+"208
+[e :UE 1254 ]
+}
+"213
+[v _delayw `(v ~T0 1 ef1`uc ]
+{
+[e :U _delayw ]
+[v _t `uc ~T0 1 r1 ]
+[f ]
+"214
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1256  ]
+[e $UE 1255  ]
+[e :U 1256 ]
+"215
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1257  ]
+[e $UE 1255  ]
+[e :U 1257 ]
+"216
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1258  ]
+[e $UE 1255  ]
+[e :U 1258 ]
+"217
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1259  ]
+[e $UE 1255  ]
+[e :U 1259 ]
+"218
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1260  ]
+[e $UE 1255  ]
+[e :U 1260 ]
+"219
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1261  ]
+[e $UE 1255  ]
+[e :U 1261 ]
+"220
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1262  ]
+[e $UE 1255  ]
+[e :U 1262 ]
+"221
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1263  ]
+[e $UE 1255  ]
+[e :U 1263 ]
+"222
+[e $ ! == -> -- _t -> -> 1 `i `uc `i -> 0 `i 1264  ]
+[e $UE 1255  ]
+[e :U 1264 ]
+"224
+[e :UE 1255 ]
+}
+"229
+[v _atualiza_posicaox `(v ~T0 1 ef ]
+{
+[e :U _atualiza_posicaox ]
+[f ]
+"230
+[v F7989 `uc ~T0 1 s posicaoy_atual ]
+[i F7989
+-> -> 0 `i `uc
+]
+"232
+[e = _GIE -> -> 0 `i `b ]
+"233
+[; <"  nop ;# ">
+"234
+[v _py `uc ~T0 1 a ]
+[e = _py _posicaox ]
+"235
+[e = _GIE -> -> 1 `i `b ]
+"236
+[v _difz `i ~T0 1 a ]
+[e = _difz - -> _py `i -> F7989 `i ]
+"237
+[e $ ! == _difz -> 0 `i 1266  ]
+[e $UE 1265  ]
+[e :U 1266 ]
+"239
+[v _dirz `uc ~T0 1 a ]
+[e = _dirz -> -> 0 `i `uc ]
+[e $ ! > _difz -> 0 `i 1267  ]
+[e = _dirz -> -> 1 `i `uc ]
+[e :U 1267 ]
+"241
+[v _difzz `uc ~T0 1 a ]
+[e = _difzz -> ( _abs (1 - -> _py `i -> F7989 `i `uc ]
+"243
+[e $ ! > -> _difzz `i -> 128 `i 1268  ]
+"244
+{
+"245
+[e = _difzz -> - -> 256 `i -> _difzz `i `uc ]
+"246
+[e = _dirz -> - -> 1 `i -> _dirz `i `uc ]
+"247
+}
+[e :U 1268 ]
+"249
+[e $ ! != -> . . _PORTCbits 0 0 `i -> _dirz `i 1269  ]
+[e ( _delayus (1 -> 1 `i ]
+[e :U 1269 ]
+"251
+[; <"  nop ;# ">
+"252
+[e = . . _PORTCbits 0 0 _dirz ]
+"254
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1270  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1270 ]
+"255
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1271  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1271 ]
+"256
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1272  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1272 ]
+"257
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1273  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1273 ]
+"258
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1274  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1274 ]
+"259
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1275  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1275 ]
+"260
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1276  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1276 ]
+"261
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1277  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1277 ]
+"262
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1278  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1278 ]
+"263
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1279  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1279 ]
+"264
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1280  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1280 ]
+"265
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1281  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1281 ]
+"266
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1282  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1282 ]
+"267
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1283  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1283 ]
+"268
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1284  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1284 ]
+"269
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1285  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1285 ]
+"270
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1286  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1286 ]
+"271
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1287  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1287 ]
+"272
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1288  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1288 ]
+"273
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1289  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1289 ]
+"274
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1290  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1290 ]
+"275
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1291  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1291 ]
+"276
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1292  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1292 ]
+"277
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1293  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1293 ]
+"278
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1294  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1294 ]
+"279
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1295  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1295 ]
+"280
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1296  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1296 ]
+"281
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1297  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1297 ]
+"282
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1298  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1298 ]
+"283
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1299  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1299 ]
+"284
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1300  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1300 ]
+"285
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1301  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1301 ]
+"286
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1302  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1302 ]
+"287
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1303  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1303 ]
+"288
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1304  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1304 ]
+"289
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1305  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1305 ]
+"290
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1306  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1306 ]
+"291
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1307  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1307 ]
+"292
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1308  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1308 ]
+"293
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1309  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1309 ]
+"294
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1310  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1310 ]
+"295
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1311  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1311 ]
+"296
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1312  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1312 ]
+"297
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1313  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1313 ]
+"298
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1314  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1314 ]
+"299
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1315  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1315 ]
+"300
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1316  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1316 ]
+"301
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1317  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1317 ]
+"302
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1318  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1318 ]
+"303
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1319  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1319 ]
+"304
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1320  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1320 ]
+"305
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1321  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1321 ]
+"306
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1322  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1322 ]
+"307
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1323  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1323 ]
+"308
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1324  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1324 ]
+"309
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1325  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1325 ]
+"310
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1326  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1326 ]
+"311
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1327  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1327 ]
+"312
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1328  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1328 ]
+"313
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1329  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1329 ]
+"314
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1330  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1330 ]
+"315
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1331  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1331 ]
+"316
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1332  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1332 ]
+"317
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1333  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1333 ]
+"318
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1334  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1334 ]
+"319
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1335  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1335 ]
+"320
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1336  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1336 ]
+"321
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1337  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1337 ]
+"322
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTCbits 0 3 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1338  ]
+{
+[e = F7989 _py ]
+[e $UE 1265  ]
+}
+[e :U 1338 ]
+"323
+[e = F7989 _py ]
+"325
+[e :UE 1265 ]
+}
+"333
+[v _atualiza_posicaoy `(v ~T0 1 ef ]
+{
+[e :U _atualiza_posicaoy ]
+[f ]
+"334
+[v F7995 `uc ~T0 1 s posicaoy_atual ]
+[i F7995
+-> -> 0 `i `uc
+]
+"336
+[e = _GIE -> -> 0 `i `b ]
+"337
+[; <"  nop ;# ">
+"338
+[v _py `uc ~T0 1 a ]
+[e = _py _posicaoy ]
+"339
+[e = _GIE -> -> 1 `i `b ]
+"340
+[v _difz `i ~T0 1 a ]
+[e = _difz - -> _py `i -> F7995 `i ]
+"341
+[e $ ! == _difz -> 0 `i 1340  ]
+[e $UE 1339  ]
+[e :U 1340 ]
+"343
+[v _dirz `uc ~T0 1 a ]
+[e = _dirz -> -> 0 `i `uc ]
+[e $ ! > _difz -> 0 `i 1341  ]
+[e = _dirz -> -> 1 `i `uc ]
+[e :U 1341 ]
+"345
+[v _difzz `uc ~T0 1 a ]
+[e = _difzz -> ( _abs (1 - -> _py `i -> F7995 `i `uc ]
+"347
+[e $ ! > -> _difzz `i -> 128 `i 1342  ]
+"348
+{
+"349
+[e = _difzz -> - -> 256 `i -> _difzz `i `uc ]
+"350
+[e = _dirz -> - -> 1 `i -> _dirz `i `uc ]
+"351
+}
+[e :U 1342 ]
+"353
+[e $ ! != -> . . _PORTEbits 0 1 `i -> _dirz `i 1343  ]
+[e ( _delayus (1 -> 1 `i ]
+[e :U 1343 ]
+"355
+[; <"  nop ;# ">
+"357
+[e = . . _PORTEbits 0 1 _dirz ]
+"359
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1344  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1344 ]
+"360
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1345  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1345 ]
+"361
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1346  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1346 ]
+"362
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1347  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1347 ]
+"363
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1348  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1348 ]
+"364
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1349  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1349 ]
+"365
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1350  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1350 ]
+"366
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1351  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1351 ]
+"367
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1352  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1352 ]
+"368
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1353  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1353 ]
+"369
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1354  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1354 ]
+"370
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1355  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1355 ]
+"371
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1356  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1356 ]
+"372
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1357  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1357 ]
+"373
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1358  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1358 ]
+"374
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1359  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1359 ]
+"375
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1360  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1360 ]
+"376
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1361  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1361 ]
+"377
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1362  ]
+{
+[e = F7995 _py ]
+[e $UE 1339  ]
+}
+[e :U 1362 ]
+"379
+[e = F7995 _py ]
+"380
+[e :UE 1339 ]
+}
+"389
+[v _atualiza_posicaoz `(v ~T0 1 ef ]
+{
+[e :U _atualiza_posicaoz ]
+[f ]
+"390
+[v F8001 `uc ~T0 1 s posicaoy_atual ]
+[i F8001
+-> -> 0 `i `uc
+]
+"392
+[e = _GIE -> -> 0 `i `b ]
+"393
+[; <"  nop ;# ">
+"394
+[v _py `uc ~T0 1 a ]
+[e = _py _posicaoz ]
+"395
+[e = _GIE -> -> 1 `i `b ]
+"396
+[v _difz `i ~T0 1 a ]
+[e = _difz - -> _py `i -> F8001 `i ]
+"397
+[e $ ! == _difz -> 0 `i 1364  ]
+[e $UE 1363  ]
+[e :U 1364 ]
+"399
+[v _dirz `uc ~T0 1 a ]
+[e = _dirz -> -> 0 `i `uc ]
+[e $ ! > _difz -> 0 `i 1365  ]
+[e = _dirz -> -> 1 `i `uc ]
+[e :U 1365 ]
+"401
+[v _difzz `uc ~T0 1 a ]
+[e = _difzz -> ( _abs (1 - -> _py `i -> F8001 `i `uc ]
+"403
+[e $ ! > -> _difzz `i -> 128 `i 1366  ]
+"404
+{
+"405
+[e = _difzz -> - -> 256 `i -> _difzz `i `uc ]
+"406
+[e = _dirz -> - -> 1 `i -> _dirz `i `uc ]
+"407
+}
+[e :U 1366 ]
+"409
+[e $ ! != -> . . _PORTAbits 0 5 `i -> _dirz `i 1367  ]
+[e ( _delayus (1 -> 1 `i ]
+[e :U 1367 ]
+"411
+[; <"  nop ;# ">
+"413
+[e = . . _PORTAbits 0 5 _dirz ]
+"415
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1368  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1368 ]
+"416
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1369  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1369 ]
+"417
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1370  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1370 ]
+"418
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1371  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1371 ]
+"419
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1372  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1372 ]
+"420
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1373  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1373 ]
+"421
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1374  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1374 ]
+"422
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1375  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1375 ]
+"423
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1376  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1376 ]
+"424
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1377  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1377 ]
+"425
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1378  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1378 ]
+"426
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1379  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1379 ]
+"427
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1380  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1380 ]
+"428
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1381  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1381 ]
+"429
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1382  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1382 ]
+"430
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1383  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1383 ]
+"431
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1384  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1384 ]
+"432
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1385  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1385 ]
+"433
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1386  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1386 ]
+"434
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1387  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1387 ]
+"435
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1388  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1388 ]
+"436
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1389  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1389 ]
+"437
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1390  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1390 ]
+"438
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1391  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1391 ]
+"439
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1392  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1392 ]
+"440
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1393  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1393 ]
+"441
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1394  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1394 ]
+"442
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e -- _difzz -> -> 1 `i `uc ]
+[e = . . _PORTEbits 0 0 -> -> 0 `i `uc ]
+[e $ ! == -> _difzz `i -> 0 `i 1395  ]
+{
+[e = F8001 _py ]
+[e $UE 1363  ]
+}
+[e :U 1395 ]
+"444
+[e = F8001 _py ]
+"445
+[e :UE 1363 ]
+}
+"449
+[v _estado `(uc ~T0 1 ef1`uc ]
+{
+[e :U _estado ]
+[v _i `uc ~T0 1 r1 ]
+[f ]
+"450
+[e $U 1398  ]
+{
+"451
+[e :U 1399 ]
+[e ) . . _PORTBbits 0 0 ]
+[e $UE 1396  ]
+"452
+[e :U 1400 ]
+[e ) . . _PORTBbits 0 1 ]
+[e $UE 1396  ]
+"453
+[e :U 1401 ]
+[e ) . . _PORTBbits 0 2 ]
+[e $UE 1396  ]
+"454
+[e :U 1402 ]
+[e ) . . _PORTBbits 0 3 ]
+[e $UE 1396  ]
+"455
+[e :U 1403 ]
+[e ) . . _PORTBbits 0 4 ]
+[e $UE 1396  ]
+"456
+[e :U 1404 ]
+[e ) . . _PORTAbits 0 0 ]
+[e $UE 1396  ]
+"457
+[e :U 1405 ]
+[e ) . . _PORTAbits 0 1 ]
+[e $UE 1396  ]
+"458
+[e :U 1406 ]
+[e ) . . _PORTAbits 0 2 ]
+[e $UE 1396  ]
+"459
+[e :U 1407 ]
+[e ) -> -> ! != -> . . _PORTAbits 0 3 `i -> -> -> 0 `i `Vuc `i `i `uc ]
+[e $UE 1396  ]
+"460
+[e :U 1408 ]
+[e ) -> -> ! != -> . . _PORTAbits 0 4 `i -> -> -> 0 `i `Vuc `i `i `uc ]
+[e $UE 1396  ]
+"461
+}
+[e $U 1397  ]
+"450
+[e :U 1398 ]
+[e [\ _i , $ -> -> 0 `i `uc 1399
+ , $ -> -> 1 `i `uc 1400
+ , $ -> -> 2 `i `uc 1401
+ , $ -> -> 3 `i `uc 1402
+ , $ -> -> 4 `i `uc 1403
+ , $ -> -> 8 `i `uc 1404
+ , $ -> -> 9 `i `uc 1405
+ , $ -> -> 10 `i `uc 1406
+ , $ -> -> 11 `i `uc 1407
+ , $ -> -> 12 `i `uc 1408
+ 1397 ]
+"461
+[e :U 1397 ]
+"462
+[e ) -> -> 0 `i `uc ]
+[e $UE 1396  ]
+"463
+[e :UE 1396 ]
+}
+"466
+[v _onLPISR `(v ~T0 1 ef ]
+{
+[e :U _onLPISR ]
+[f ]
+"467
+[e :UE 1409 ]
+}
+"469
+[v _onSystemTick `(v ~T0 1 ef ]
+{
+[e :U _onSystemTick ]
+[f ]
+"470
+[e :UE 1410 ]
+}
+"477
+[v _h1 `uc ~T0 1 e ]
+[i _h1
+-> -> 100 `i `uc
+]
+"478
+[v _mede_hall1 `(uc ~T0 1 ef ]
+{
+[e :U _mede_hall1 ]
+[f ]
+"479
+[v F8014 `uc ~T0 1 s evento1 ]
+[i F8014
+-> -> 0 `i `uc
+]
+"480
+[v F8015 `uc ~T0 1 s cevent ]
+[i F8015
+-> -> 100 `i `uc
+]
+"481
+[e $ ! ! != -> -- F8015 -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 1412  ]
+{
+[e = F8015 -> -> 100 `i `uc ]
+[e = _h1 -> -> 100 `i `uc ]
+[e ) -> -> 2 `i `uc ]
+[e $UE 1411  ]
+}
+[e :U 1412 ]
+"482
+[v F8016 `ui ~T0 1 s t_subida1 ]
+[v F8017 `ui ~T0 1 s t_descida ]
+"483
+[v F8018 `ui ~T0 1 s t_alto ]
+[v F8019 `ui ~T0 1 s t_baixo ]
+"484
+[v F8020 `l ~T0 1 s h2x ]
+"485
+[v F8021 `ui ~T0 1 s tab ]
+"487
+[e $U 1414  ]
+{
+"488
+[e :U 1415 ]
+[e = F8014 -> -> 1 `i `uc ]
+"489
+[e = _CCP1CON -> -> 0 `i `uc ]
+"490
+[e = _CCP1MD -> -> 0 `i `b ]
+"491
+[e = . . _CCP1CONbits 0 0 -> -> 5 `i `uc ]
+"492
+[e = _CCP1IF -> -> 0 `i `b ]
+"493
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"495
+[e :U 1416 ]
+[e $ ! ! _CCP1IF 1417  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+[e :U 1417 ]
+"496
+[e = F8016 -> _CCPR1 `ui ]
+"497
+[e = _CCP1CON -> -> 0 `i `uc ]
+"498
+[e = _CCP1MD -> -> 0 `i `b ]
+"499
+[e = . . _CCP1CONbits 0 0 -> -> 4 `i `uc ]
+"500
+[e = _CCP1IF -> -> 0 `i `b ]
+"501
+[e = F8014 -> -> 2 `i `uc ]
+"502
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"504
+[e :U 1418 ]
+[e $ ! ! _CCP1IF 1419  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+[e :U 1419 ]
+"505
+[e = F8017 -> _CCPR1 `ui ]
+"506
+[e = _CCP1CON -> -> 0 `i `uc ]
+"507
+[e = _CCP1MD -> -> 0 `i `b ]
+"508
+[e = . . _CCP1CONbits 0 0 -> -> 5 `i `uc ]
+"509
+[e = _CCP1IF -> -> 0 `i `b ]
+"510
+[e = F8014 -> -> 3 `i `uc ]
+"511
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"513
+[e :U 1420 ]
+[e $ ! ! _CCP1IF 1421  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+[e :U 1421 ]
+"514
+[e = F8015 -> -> 100 `i `uc ]
+"515
+[e = _CCP1CON -> -> 0 `i `uc ]
+"516
+[e = _CCP1IF -> -> 0 `i `b ]
+"517
+[e = F8018 - F8017 F8016 ]
+"518
+[e = F8019 + + ~ F8017 -> _CCPR1 `ui -> -> 1 `i `ui ]
+"519
+[e = F8014 -> -> 4 `i `uc ]
+"520
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"522
+[e :U 1422 ]
+[e $ ! > + F8018 F8019 -> -> 10000 `i `ui 1423  ]
+{
+"523
+[v _ref `i ~T0 1 a ]
+[e = _ref -> / + F8018 F8019 -> -> 2 `i `ui `i ]
+"524
+[e $ ! > F8018 F8019 1424  ]
+[e = F8018 - F8018 -> _ref `ui ]
+[e $U 1425  ]
+[e :U 1424 ]
+[e = F8019 - F8019 -> _ref `ui ]
+[e :U 1425 ]
+"525
+}
+[e :U 1423 ]
+"526
+[e = F8014 -> -> 5 `i `uc ]
+"527
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"530
+[e :U 1426 ]
+[e = F8020 * -> + F8018 -> -> 17 `i `ui `l -> -> 257 `i `l ]
+"531
+[e = F8021 + F8018 F8019 ]
+"532
+[e = F8014 -> -> 6 `i `uc ]
+"533
+[e ) -> -> 0 `i `uc ]
+[e $UE 1411  ]
+"535
+[e :U 1427 ]
+[e = _h1 -> / F8020 -> F8021 `l `uc ]
+"536
+[e -- _h1 -> -> 1 `i `uc ]
+"537
+[e = F8014 -> -> 0 `i `uc ]
+"538
+[e ) -> -> 1 `i `uc ]
+[e $UE 1411  ]
+"539
+}
+[e $U 1413  ]
+"487
+[e :U 1414 ]
+[e [\ F8014 , $ -> -> 0 `i `uc 1415
+ , $ -> -> 1 `i `uc 1416
+ , $ -> -> 2 `i `uc 1418
+ , $ -> -> 3 `i `uc 1420
+ , $ -> -> 4 `i `uc 1422
+ , $ -> -> 5 `i `uc 1426
+ , $ -> -> 6 `i `uc 1427
+ 1413 ]
+"539
+[e :U 1413 ]
+"540
+[e ) -> -> 1 `i `uc ]
+[e $UE 1411  ]
+"541
+[e :UE 1411 ]
+}
+"543
+[v _h2 `uc ~T0 1 e ]
+[i _h2
+-> -> 200 `i `uc
+]
+"544
+[v _mede_hall2 `(uc ~T0 1 ef ]
+{
+[e :U _mede_hall2 ]
+[f ]
+"545
+[v F8026 `uc ~T0 1 s evento1 ]
+[i F8026
+-> -> 0 `i `uc
+]
+"546
+[v F8027 `uc ~T0 1 s cevent ]
+[i F8027
+-> -> 100 `i `uc
+]
+"547
+[e $ ! ! != -> -- F8027 -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 1429  ]
+{
+[e = F8027 -> -> 100 `i `uc ]
+[e = _h2 -> -> 200 `i `uc ]
+[e ) -> -> 2 `i `uc ]
+[e $UE 1428  ]
+}
+[e :U 1429 ]
+"548
+[v F8028 `ui ~T0 1 s t_subida1 ]
+[v F8029 `ui ~T0 1 s t_descida ]
+"549
+[v F8030 `ui ~T0 1 s t_alto ]
+[v F8031 `ui ~T0 1 s t_baixo ]
+"550
+[v F8032 `l ~T0 1 s h2x ]
+"551
+[v F8033 `ui ~T0 1 s tab ]
+"553
+[e $U 1431  ]
+{
+"554
+[e :U 1432 ]
+[e = F8026 -> -> 1 `i `uc ]
+"555
+[e = _CCP2CON -> -> 0 `i `uc ]
+"556
+[e = _CCP2MD -> -> 0 `i `b ]
+"557
+[e = . . _CCP2CONbits 0 0 -> -> 5 `i `uc ]
+"558
+[e = _CCP2IF -> -> 0 `i `b ]
+"559
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"561
+[e :U 1433 ]
+[e $ ! ! _CCP2IF 1434  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+[e :U 1434 ]
+"562
+[e = F8028 -> _CCPR2 `ui ]
+"563
+[e = _CCP2CON -> -> 0 `i `uc ]
+"564
+[e = _CCP2MD -> -> 0 `i `b ]
+"565
+[e = . . _CCP2CONbits 0 0 -> -> 4 `i `uc ]
+"566
+[e = _CCP2IF -> -> 0 `i `b ]
+"567
+[e = F8026 -> -> 2 `i `uc ]
+"568
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"570
+[e :U 1435 ]
+[e $ ! ! _CCP2IF 1436  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+[e :U 1436 ]
+"571
+[e = F8029 -> _CCPR2 `ui ]
+"572
+[e = _CCP2CON -> -> 0 `i `uc ]
+"573
+[e = _CCP2MD -> -> 0 `i `b ]
+"574
+[e = . . _CCP2CONbits 0 0 -> -> 5 `i `uc ]
+"575
+[e = _CCP2IF -> -> 0 `i `b ]
+"576
+[e = F8026 -> -> 3 `i `uc ]
+"577
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"579
+[e :U 1437 ]
+[e $ ! ! _CCP2IF 1438  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+[e :U 1438 ]
+"580
+[e = F8027 -> -> 100 `i `uc ]
+"581
+[e = _CCP2CON -> -> 0 `i `uc ]
+"582
+[e = _CCP2IF -> -> 0 `i `b ]
+"583
+[e = F8030 + + ~ F8028 F8029 -> -> 1 `i `ui ]
+"584
+[e = F8031 + + ~ F8029 -> _CCPR2 `ui -> -> 1 `i `ui ]
+"585
+[e = F8026 -> -> 4 `i `uc ]
+"586
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"588
+[e :U 1439 ]
+[e $ ! > + F8030 F8031 -> -> 10000 `i `ui 1440  ]
+{
+"589
+[v _ref `i ~T0 1 a ]
+[e = _ref -> / + F8030 F8031 -> -> 2 `i `ui `i ]
+"590
+[e $ ! > F8030 F8031 1441  ]
+[e = F8030 - F8030 -> _ref `ui ]
+[e $U 1442  ]
+[e :U 1441 ]
+[e = F8031 - F8031 -> _ref `ui ]
+[e :U 1442 ]
+"591
+}
+[e :U 1440 ]
+"592
+[e = F8026 -> -> 5 `i `uc ]
+"593
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"596
+[e :U 1443 ]
+[e = F8032 * -> + F8030 -> -> 17 `i `ui `l -> -> 257 `i `l ]
+"597
+[e = F8033 + F8030 F8031 ]
+"598
+[e = F8026 -> -> 6 `i `uc ]
+"599
+[e ) -> -> 0 `i `uc ]
+[e $UE 1428  ]
+"601
+[e :U 1444 ]
+[e = _h2 -> / F8032 -> F8033 `l `uc ]
+"602
+[e -- _h2 -> -> 1 `i `uc ]
+"603
+[e = F8026 -> -> 0 `i `uc ]
+"604
+[e ) -> -> 1 `i `uc ]
+[e $UE 1428  ]
+"605
+}
+[e $U 1430  ]
+"553
+[e :U 1431 ]
+[e [\ F8026 , $ -> -> 0 `i `uc 1432
+ , $ -> -> 1 `i `uc 1433
+ , $ -> -> 2 `i `uc 1435
+ , $ -> -> 3 `i `uc 1437
+ , $ -> -> 4 `i `uc 1439
+ , $ -> -> 5 `i `uc 1443
+ , $ -> -> 6 `i `uc 1444
+ 1430 ]
+"605
+[e :U 1430 ]
+"606
+[e ) -> -> 1 `i `uc ]
+[e $UE 1428  ]
+"607
+[e :UE 1428 ]
+}
+"611
+[v F8038 `(v ~T0 1 tf ]
+[v _LPISR `ILF8038 ~T0 1 e ]
+{
+[e :U _LPISR ]
+[f ]
+"612
+[e :UE 1445 ]
+}
+"614
+[v _errosrx `Vi ~T0 1 e ]
+[i _errosrx
+-> 1 `i
+]
+"616
+[v F8042 `(v ~T0 1 tf ]
+[v _onHPISR `IF8042 ~T0 1 e ]
+{
+[e :U _onHPISR ]
+[f ]
+"617
+[v F8043 `uc ~T0 1 s crif ]
+[i F8043
+-> -> 0 `i `uc
+]
+"618
+[v F8044 `uc ~T0 1 s nbr ]
+[i F8044
+-> -> 0 `i `uc
+]
+"619
+[v F8045 `uc ~T0 -> 6 `i s blocor ]
+"620
+[v F8046 `uc ~T0 1 s nbloco ]
+[i F8046
+-> -> 0 `i `uc
+]
+"622
+[v F8047 `l ~T0 1 s contt ]
+[i F8047
+-> -> 0 `i `l
+]
+"623
+[v F8048 `uc ~T0 1 s ct ]
+[i F8048
+-> -> 0 `i `uc
+]
+"624
+[e = _GIE -> -> 0 `i `b ]
+"626
+[e $ ! _OERR2 1447  ]
+{
+[e = _CREN2 -> -> 0 `i `b ]
+[e = _CREN2 -> -> 1 `i `b ]
+[e = _RC2IF -> -> 0 `i `b ]
+}
+[e :U 1447 ]
+"628
+[e $U 1448  ]
+[e :U 1449 ]
+"629
+{
+"630
+[e = F8043 -> -> 0 `i `uc ]
+"631
+[v _dx `uc ~T0 1 a ]
+[e = _dx _RCREG2 ]
+"632
+[e = *U + &U F8045 * -> F8044 `ux -> -> # *U &U F8045 `ui `ux _dx ]
+"633
+[e ++ F8044 -> -> 1 `i `uc ]
+"634
+[e $ ! > -> F8044 `i -> 5 `i 1451  ]
+"635
+{
+"636
+[e = F8044 -> -> 0 `i `uc ]
+"637
+[v _checkr `us ~T0 1 a ]
+[e = _checkr -> + + + + -> *U + &U F8045 * -> -> -> 0 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i -> *U + &U F8045 * -> -> -> 1 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i -> *U + &U F8045 * -> -> -> 2 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i -> *U + &U F8045 * -> -> -> 3 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i -> 30000 `i `us ]
+"638
+[v _check16 `us ~T0 1 a ]
+[e = _check16 -> + << -> *U + &U F8045 * -> -> -> 4 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i -> 8 `i -> *U + &U F8045 * -> -> -> 5 `i `ui `ux -> -> # *U &U F8045 `ui `ux `i `us ]
+"639
+[e $ ! == -> _checkr `ui -> _check16 `ui 1452  ]
+{
+"640
+[e = _posicaox *U + &U F8045 * -> -> -> 0 `i `ui `ux -> -> # *U &U F8045 `ui `ux ]
+"641
+[e = _posicaoy *U + &U F8045 * -> -> -> 1 `i `ui `ux -> -> # *U &U F8045 `ui `ux ]
+"642
+[e = _posicaoz *U + &U F8045 * -> -> -> 2 `i `ui `ux -> -> # *U &U F8045 `ui `ux ]
+"643
+[e = _comando *U + &U F8045 * -> -> -> 3 `i `ui `ux -> -> # *U &U F8045 `ui `ux ]
+"644
+}
+[e $U 1453  ]
+[e :U 1452 ]
+{
+[e ++ _errosrx -> 1 `i ]
+}
+[e :U 1453 ]
+"645
+}
+[e :U 1451 ]
+"646
+}
+[e :U 1448 ]
+"628
+[e $ _RC2IF 1449  ]
+[e :U 1450 ]
+"648
+[e $ ! _TMR6IF 1454  ]
+"649
+{
+"650
+[e $ ! < -> F8046 `i -> 6 `i 1455  ]
+[e = _TXREG1 *U + &U _bloco * -> F8046 `ux -> -> # *U &U _bloco `ui `ux ]
+[e :U 1455 ]
+"651
+[e $ ! == -> F8046 `i -> 7 `i 1456  ]
+"652
+{
+"653
+[e = F8046 -> -> 0 `i `uc ]
+"654
+[e = *U + &U _bloco * -> -> -> 0 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco0 ]
+"655
+[e = *U + &U _bloco * -> -> -> 1 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco1 ]
+"656
+[e = *U + &U _bloco * -> -> -> 2 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco2 ]
+"657
+[e = *U + &U _bloco * -> -> -> 3 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco3 ]
+"658
+[e = *U + &U _bloco * -> -> -> 4 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco4 ]
+"659
+[e = *U + &U _bloco * -> -> -> 5 `i `ui `ux -> -> # *U &U _bloco `ui `ux _bloco5 ]
+"660
+}
+[e $U 1457  ]
+"661
+[e :U 1456 ]
+"662
+[e ++ F8046 -> -> 1 `i `uc ]
+[e :U 1457 ]
+"664
+[e $ ! _RC2IF 1458  ]
+[e = F8043 -> -> 0 `i `uc ]
+[e :U 1458 ]
+"665
+[e ++ F8043 -> -> 1 `i `uc ]
+"666
+[e $ ! > -> F8043 `i -> 2 `i 1459  ]
+{
+"667
+[e = F8044 -> -> 0 `i `uc ]
+"668
+}
+[e :U 1459 ]
+"669
+[e = _TMR6IF -> -> 0 `i `b ]
+"670
+[e = _TMR6 -> -> 129 `i `uc ]
+"671
+}
+[e :U 1454 ]
+"672
+[e = _GIE -> -> 1 `i `b ]
+"673
+[e :UE 1446 ]
+}
+"676
+[v _main `(v ~T0 1 ef ]
+{
+[e :U _main ]
+[f ]
+"677
+[e = _GIE -> -> 0 `i `b ]
+"678
+[e = _ANSELA -> -> 0 `i `uc ]
+"679
+[e = _ANSELB -> -> 0 `i `uc ]
+"680
+[e = _ANSELC -> -> 0 `i `uc ]
+"681
+[e = _ANSELD -> -> 0 `i `uc ]
+"682
+[e = _ANSELE -> -> 0 `i `uc ]
+"683
+[e ( _IniciaPIOX ..  ]
+"685
+[e ( _IniciaUART2 (2 , -> -> 1250000 `l `ul -> -> 0 `i `uc ]
+"686
+[e ( _IniciaUART1X (2 , -> -> 1250000 `l `ul -> -> 0 `i `uc ]
+"688
+[e = _IPEN -> -> 1 `i `b ]
+"689
+[e = _PEIE -> -> 1 `i `b ]
+"691
+[e = . . _LATCbits 0 5 -> -> 1 `i `uc ]
+"693
+[e = _T6CON -> -> 0 `i `uc ]
+"694
+[e = _TMR6 -> -> 129 `i `uc ]
+"695
+[e = _TMR6IF -> -> 0 `i `b ]
+"696
+[e = _TMR6IP -> -> 1 `i `b ]
+"697
+[e = _TMR6IE -> -> 1 `i `b ]
+"698
+[e = _TMR6ON -> -> 1 `i `b ]
+"702
+[e = . . _T5CONbits 1 4 -> -> 0 `i `uc ]
+"703
+[e = . . _T5CONbits 1 5 -> -> 0 `i `uc ]
+"704
+[e = . . _T5CONbits 1 1 -> -> 1 `i `uc ]
+"705
+[e = _TMR5IE -> -> 0 `i `b ]
+"706
+[e = _TMR5ON -> -> 1 `i `b ]
+"708
+[e = _CCP1MD -> -> 0 `i `b ]
+"709
+[e = . . _CCPTMRS0bits 0 0 -> -> 2 `i `uc ]
+"710
+[e = _CCP1IE -> -> 0 `i `b ]
+"712
+[e = _CCP2MD -> -> 0 `i `b ]
+"713
+[e = . . _CCPTMRS0bits 0 2 -> -> 2 `i `uc ]
+"714
+[e = _CCP2IE -> -> 0 `i `b ]
+"716
+[v _contw `l ~T0 1 a ]
+[e = _contw -> -> 5 `i `l ]
+"717
+[e = _GIE -> -> 0 `i `b ]
+"718
+[e :U 1462 ]
+{
+"719
+[e = . . _LATDbits 0 2 -> -> ! != -> . . _LATDbits 0 2 `i -> -> -> 0 `i `Vuc `i `i `uc ]
+"721
+[e = . . _LATDbits 0 1 -> -> ! != -> . . _LATDbits 0 1 `i -> -> -> 0 `i `Vuc `i `i `uc ]
+"722
+[e ( _atualiza_posicaox ..  ]
+"723
+[e ( _atualiza_posicaoy ..  ]
+"724
+[e ( _atualiza_posicaoz ..  ]
+"725
+[v F8055 `uc ~T0 1 s ix ]
+[i F8055
+-> -> 0 `i `uc
+]
+"726
+[v F8056 `i ~T0 -> 16 `i s filtro ]
+"727
+[v F8057 `i ~T0 1 s espelho ]
+[i F8057
+-> 0 `i
+]
+"728
+[e $ ! < *U + &U F8056 * -> F8055 `ux -> -> # *U &U F8056 `ui `ux -> 100 `i 1464  ]
+{
+"729
+[e $ ! != -> ( _estado (1 F8055 `i -> -> -> 0 `i `uc `i 1465  ]
+[e ++ *U + &U F8056 * -> F8055 `ux -> -> # *U &U F8056 `ui `ux -> 1 `i ]
+[e :U 1465 ]
+"730
+[e =& F8057 ~ << -> 1 `i -> F8055 `i ]
+"731
+}
+[e $U 1466  ]
+[e :U 1464 ]
+{
+"732
+[e =| F8057 << -> 1 `i -> F8055 `i ]
+"733
+[e $ ! ! != -> ( _estado (1 F8055 `i -> -> -> 0 `i `uc `i 1467  ]
+[e = *U + &U F8056 * -> F8055 `ux -> -> # *U &U F8056 `ui `ux -> 0 `i ]
+[e :U 1467 ]
+"734
+}
+[e :U 1466 ]
+"735
+[e $ ! == -> ++ F8055 -> -> 1 `i `uc `i -> 13 `i 1468  ]
+[e = F8055 -> -> 0 `i `uc ]
+[e :U 1468 ]
+"737
+[v _SENSFC `uc ~T0 1 a ]
+[e = _SENSFC -> F8057 `uc ]
+"738
+[v _FIM_CURSO_CABECA_NOT `uc ~T0 1 a ]
+[e = _FIM_CURSO_CABECA_NOT -> >> F8057 -> 8 `i `uc ]
+"740
+[v F8060 `uc ~T0 1 s medeccp ]
+[i F8060
+-> -> 1 `i `uc
+]
+"742
+[e $ ! == -> F8060 `i -> 1 `i 1469  ]
+{
+"743
+[e $ ! != -> ( _mede_hall1 ..  `i -> -> -> 0 `i `uc `i 1470  ]
+[e = F8060 -> -> 2 `i `uc ]
+[e :U 1470 ]
+"744
+}
+[e $U 1471  ]
+[e :U 1469 ]
+{
+"745
+[e $ ! != -> ( _mede_hall2 ..  `i -> -> -> 0 `i `uc `i 1472  ]
+[e = F8060 -> -> 1 `i `uc ]
+[e :U 1472 ]
+"746
+}
+[e :U 1471 ]
+"748
+[e ( _monta_bloco_thc (4 , , , _SENSFC _FIM_CURSO_CABECA_NOT _h1 _h2 ]
+"750
+[e $ ! != -> _comando `i -> -> -> 0 `i `Vuc `i 1473  ]
+{
+[e $ ! != -> _comando `i -> _comando_old `i 1474  ]
+{
+"751
+[e = _comando_old _comando ]
+"752
+[e $ ! == -> _comando `i -> 55 `i 1475  ]
+{
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+}
+[e :U 1475 ]
+"753
+[e $ ! == -> _comando `i -> 56 `i 1476  ]
+{
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 1 `i `uc ]
+[e ( _delayw (1 -> -> 5 `i `uc ]
+[e = . . _PORTDbits 0 1 -> -> 0 `i `uc ]
+}
+[e :U 1476 ]
+"754
+}
+[e :U 1474 ]
+}
+[e :U 1473 ]
+"756
+[e $ ! > ++ _contw -> -> 1 `i `l -> -> 10000 `i `l 1477  ]
+{
+"757
+[e = _contw -> -> 0 `i `l ]
+"759
+}
+[e :U 1477 ]
+}
+[e :U 1461 ]
+"718
+[e $U 1462  ]
+[e :U 1463 ]
+"759
+[e :UE 1460 ]
+}

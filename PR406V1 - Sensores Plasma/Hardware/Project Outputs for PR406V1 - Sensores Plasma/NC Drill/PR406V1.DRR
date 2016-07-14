@@ -1,0 +1,20 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: PR406V1.PcbDoc   27/01/2016  09:58:33
+---------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : PR406V1.TXT
+
+Tool         Hole Size           Hole Type     Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        28mil (0.7112mm)         Round          189              53.92 Inch (1369.66 mm)
+T2        35mil (0.889mm)          Round          13               2.23 Inch (56.65 mm)
+T3        38mil (0.9652mm)         Round          68               17.61 Inch (447.19 mm)
+T4        45mil (1.143mm)          Round          2                0.40 Inch (10.16 mm)
+T5        55mil (1.397mm)          Round          3                0.20 Inch (5.08 mm)
+T6        60mil (1.524mm)          Round          4                0.50 Inch (12.57 mm)
+T7        177mil (4.4958mm)        Round          4                13.16 Inch (334.18 mm)
+---------------------------------------------------------------------------
+Totals                                            283              88.01 Inch (2235.49 mm)
+
+Total Processing Time (hh:mm:ss) : 00:00:00

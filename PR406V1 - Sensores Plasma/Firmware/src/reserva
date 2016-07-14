@@ -1,0 +1,1515 @@
+/*
+                Futurize Máquinas de Bordar e Laser
+                    <Diego Guse Bez Fontana>
+
+	#include "G:\Datasheets\Motores\Motor de Passo\Drivers\L6228.pdf"
+
+    PR184V3 - Cabeça Local
+*/
+
+#include "config.h"
+#include <port\xsystem.h>
+#include <port\xdelay.h>
+#include <utils\xstdlib.h>
+#include "comandos.h"
+#include "pio.h"
+
+#ifdef __DEBUG
+#warning "OBS: Modo DEBUG ativado"
+#endif
+
+//***************************************************************************
+// Timers Virtuais
+//***************************************************************************
+#define TMCOUNT		11
+
+volatile WORD Timerms[TMCOUNT];
+volatile WORD tmPULMOT;
+
+#define tmLEDOK		Timerms[0]	//Apenas para fazer o LED de OK piscar
+//#define tmFORCA1	Timerms[1]	//Força do motor de passo
+#define tmLEDREP	Timerms[2]	//LED que fica piscando para indicar reparo
+#define tmDRIVEA	Timerms[3]	//Controle do PWM do drive A
+#define tmDRIVEB	Timerms[4]	//Controle do PWM do drive B
+#define tmTESTE		Timerms[5]	//Timer de teste
+#define tmSL1		Timerms[6]	//Sensor de Linha1
+#define tmSL2		Timerms[7]	//Sensor de Linha2
+//#define tmFORCA2	Timerms[8]	//Força do motor de passo
+#define tmPRENDE1	Timerms[9]
+#define tmPRENDE2	Timerms[10]
+
+//***************************************************************************
+//Variaveis
+//***************************************************************************
+#define CANAL_THC 23
+#define CANAL_POT 20
+
+
+typedef struct tagSERIAL {
+	U8 Buffer[16];
+	U8 Count;
+	U8 Write,Read;
+	U8 Overflow;
+	U8 Overrun;
+	U8 Resetar;
+	U8 CmdInvalido;
+	U8 check_rec,check_proc;
+}strSerial;
+
+volatile strSerial Serial;
+
+U8 config=0, sensor, posicao, modo_seta_par=0, stop=0, ini_thc=0, envia_contin=0;
+
+U16 val_pot=0;
+
+U8 val_thc=0;
+
+//variaveis dos parametros
+U8 parCONTATO, parHISTHC, parHABTHC, parENCDIF;
+
+long parVELZ, parVELTHC, memoVELTHC;
+
+U16 parTEMPESPMOV, parALTINICORTE, parALTPARZ, parALTZERZ, parALTDURCORT, parALTCORZ;
+
+S16 defz;
+U8 arco_ativo=0;
+
+BYTE contato_ohmico=0;
+
+//******************************************************************
+//							Memória EEPROM
+//******************************************************************
+
+U8 ReadMem(U8 addr) {
+	while (WR);
+	EECON1 = 0;
+	EEADR = addr;
+	RD = 1;
+	return EEDATA;
+}
+
+void WriteMem(U8 addr, U8 value) {
+	while (WR);
+	EECON1 = 0;
+	EEADR = addr;
+	EEDATA = value;
+	GIE = 0;
+	WREN = 1;
+	EECON2 = 0x55;
+	EECON2 = 0xAA;
+	WR = 1;
+	WREN = 0;
+	GIE = 1;
+}
+
+WORD ReadMemW(U8 Addr) {
+	//return ReadMem(Addr)+(WORD)ReadMem(Addr+1)*256;
+	return (WORD)((ReadMem(Addr+1)<<8)+(ReadMem(Addr)));
+}
+
+void WriteMemW(U8 Addr, WORD Value) {
+	WriteMem(Addr,Value);
+	WriteMem(Addr+1,Value>>8);
+}
+
+void IncMem(U8 Addr) {
+	WriteMem(Addr,ReadMem(Addr)+1);
+}
+
+void IncMemW(U8 Addr) {
+	WriteMemW(Addr,ReadMemW(Addr)+1);
+}
+
+//***************************************************************************
+// 								Interrupção
+//***************************************************************************
+void VerificaSerial(void) {
+	U8 d;
+	if (!RC1IF) return;
+	d = RCREG1;
+	//if (d==255) pin_LEDREPARO ^= 1;
+	//armazena o U8
+	Serial.Buffer[(Serial.Write++)&0xF] = d;
+	if (++Serial.Count>16) {
+		Serial.Overflow = 1;
+		Serial.Resetar = 1;
+	}
+}
+
+void PushSerial(char d) {
+	Serial.Buffer[(Serial.Write++)&0xF] = d;
+	Serial.Count++;
+}
+
+void ResetaSerial(void) {
+	DI();
+	Serial.Count = 0;
+	Serial.Write = 0;
+	Serial.Read = 0;
+	Serial.Resetar = 0;
+	EI();
+
+	//pin_LEDTXRX = 1; tmSL1=1000;
+}
+
+U16 ton1, toff1, ton2, toff2;
+U8 ang1, ang2, dif, flag1=0, flag2=0, dif_encoder_ok=0;
+U16 valores_ton1;
+U16 valores_toff1;
+U16 valores_ton2;
+U16 valores_toff2;
+U8 pos_sensores[10];
+
+//tratamento das interrupções de alta prioridade
+void onHPISR(void) {
+	if (TMR2IF){//tempo de interrupção de 10us
+		if (tmPULMOT>0) tmPULMOT--;
+		//pin_LEDTXRX ^= 1;
+		//if (tmPULMOT==0){
+			//pin_LEDTXRX ^= 1;
+			//tmPULMOT = 10;
+		//}
+		TMR2IF=0;
+		TMR2=129;//106 exatos 10us? testar
+	}
+	if(CCP1IF){
+		if (CCP1CONbits.CCP1M == 4) {
+			if (flag1==1){
+				TMR5=0;
+				valores_toff1 = CCPR1;
+				flag1=0;
+			}else{
+				TMR5=0;
+			}
+			CCP1CONbits.CCP1M = 5;
+		}
+		else {
+			TMR5=0;//zera antes, pois ccpr1 já recebeu o valor do timer na entrada da interrupção
+			valores_ton1 = CCPR1;
+			CCP1CONbits.CCP1M = 4;
+			flag1=1;
+		}
+		CCP1IF=0;
+	}
+	if(CCP2IF){
+		if (CCP2CONbits.CCP2M == 4) {
+			if (flag2==1){
+				TMR3=0;
+				valores_toff2 = CCPR2;
+				flag2=0;
+			}else{
+				TMR3=0;
+			}
+			CCP2CONbits.CCP2M = 5;
+		}
+		else {
+			TMR3=0;//zera antes, pois ccpr1 já recebeu o valor do timer na entrada da interrupção
+			valores_ton2 = CCPR2;
+			CCP2CONbits.CCP2M = 4;
+			flag2=1;
+		}
+		CCP2IF=0;
+	}
+	VerificaSerial();
+}
+
+void IniciaTMR2(void) {//tempo original de interrupção de 4/60E6 * 256 = 17,066us
+	//T2CONbits.T2CKPS = 1; //prescaler 4
+	//T2CONbits.T2OUTPS = 0;
+	T2CON = 0b00000000;
+	TMR2 = 0;//240
+	TMR2IF = 0;
+	TMR2IP = 1;//alta prioridade
+	TMR2IE = 1;
+	TMR2ON = 1;
+}
+void IniciaTMR3(void) {//timer ccp2
+	T3CONbits.T3CKPS = 0;//verificar
+	T3CONbits.TMR3CS = 0;
+	T3CONbits.T3RD16 = 1;
+	TMR3ON = 1;
+}
+void IniciaTMR5(void) {//timer ccp1
+	T5CONbits.T5CKPS = 0;//verificar
+	T5CONbits.TMR5CS = 0;
+	T5CONbits.T5RD16 = 1;
+	TMR5ON = 1;
+}
+
+#define N_MEDIA 5
+#define N_MEDIA_ENC 5
+U8 sens[10][N_MEDIA];
+U8 med_dif_enc[N_MEDIA_ENC];
+U8 sok=0;
+/*
+U8 sensx0[N_MEDIA];
+U8 sensx1[N_MEDIA];
+U8 sensy0[N_MEDIA];
+U8 sensy1[N_MEDIA];
+U8 sensy2[N_MEDIA];
+//U8 sensx1[N_MEDIA];
+*/
+
+U8 media_enc(void){
+	U8 i;
+	U8 soma=0;
+	for (i=0; i<N_MEDIA_ENC; i++) soma=soma|(med_dif_enc[i]);
+	//pin_LEDTXRX = soma;
+	return soma;
+}
+
+U8 media_sens(U8 sensor){
+	U8 i;
+	U8 soma=1;
+	if (sensor==8){
+		soma=0;
+		for (i=0; i<N_MEDIA; i++) soma=soma|(sens[sensor][i]);
+	}
+	else{
+		for (i=0; i<N_MEDIA; i++) soma=soma&(sens[sensor][i]);
+	}
+
+	//pin_LEDTXRX = soma;
+	return soma;
+}
+
+U8 verifica_sensor(U8 sensor){
+	/*if (sensor==110)
+		return media_sens(&sensx0);
+	if (sensor==111)
+		return media_sens(&sensx1);
+	if (sensor==112)
+		return media_sens(&sensy0);
+	if (sensor==113)
+		return media_sens(&sensy1);
+	if (sensor==114)
+		return media_sens(&sensy2);
+	return 0;*/
+	return media_sens((sensor-110));
+}
+
+U8 verifica_sensor_individual(U8 sensor){
+	switch (pos_sensores[sensor-110]){
+		case 1  : return pin_S1;
+		case 2  : return pin_S2;
+		case 3  : return pin_S3;
+		case 4  : return pin_S4;
+		case 5  : return pin_S5;
+		case 6  : return pin_S6;
+		case 7  : return pin_S7;
+		case 8  : return pin_S8;
+		case 9  : return pin_S9;
+		case 10 : return pin_S10;
+		case 11 : return pin_S11;
+	}
+	return 200;//erro
+}
+
+#define N_TENT 5//25us
+
+U8 verifica_sensorx(U8 sensor){
+	U8 tent=0, cont=0, sens=1;
+	for (tent=0;tent<N_TENT;tent++){
+		sens=sens&verifica_sensor_individual(sensor);
+		//if (sens==200) return 1;
+		//cont=cont+sens;
+		//delayus(1);
+	}
+	//if (cont==N_TENT) return 1;
+	//if (cont<N_TENT) return 0;
+	return sens;
+}
+
+void verifica_sok(void){
+	U8 cont=0, teste=1;
+	while(cont<8) teste=teste&verifica_sensor_individual(110+cont++);
+	teste=teste&(!verifica_sensor_individual(110+cont));
+	if (teste) sok=teste;
+}
+
+void verifica_sens(void){//1ms
+	static U8 cont=0, cont2=0;
+	U8 pos;
+	pos=cont%10;
+/*	if (pos==0)
+		sensx0[cont2++%N_MEDIA]=verifica_sensorx(110+(pos));
+	if (pos==1)
+		sensx1[cont2++%N_MEDIA]=verifica_sensorx(110+(pos));
+	if (pos==2)
+		sensy0[cont2++%N_MEDIA]=verifica_sensorx(110+(pos));
+	if (pos==3)
+		sensy1[cont2++%N_MEDIA]=verifica_sensorx(110+(pos));
+
+	if (pos==4)
+			sensy2[cont2++%N_MEDIA]=verifica_sensorx(110+(pos));
+*/
+
+	sens[pos][(cont2++)%N_MEDIA]=verifica_sensor_individual(110+(pos));
+	if (!(cont2%N_MEDIA)) cont++;
+	//verifica_sok();
+}
+U8 stat2=0, stat3=0, stat3ohm=0, sensy0y2=0, sensx0y0y2=0, sensx1y0y2=0;
+
+void monta_stat2(void){
+	stat2=((verifica_sensor(cmSX0))*8)+((verifica_sensor(cmSX1))*16)+((verifica_sensor(cmSY0))*32)+((verifica_sensor(cmSY1))*64)+((verifica_sensor(cmSY2))*128);
+}
+
+
+void monta_stat3(void){
+	//pin_LEDTXRX ^= 1;
+	stat3=((verifica_sensor(cmSZ0))*1)+((verifica_sensor(cmSZ1))*2)+((verifica_sensor(cmSZ2))*4)+((verifica_sensor(cmSAA))*8);
+}
+
+void monta_stat3_ohm(void){
+	//pin_LEDTXRX ^= 1;
+	stat3ohm=(((verifica_sensor(cmSZ0))||(verifica_sensor(cmSOH)))*1)+((verifica_sensor(cmSZ1))*2)+((verifica_sensor(cmSZ2))*4)+((verifica_sensor(cmSAA))*8);
+}
+
+void monta_y0y2(void){
+	sensy0y2=(verifica_sensor(cmSY0)*1)+(verifica_sensor(cmSY2)*2);
+}
+
+void monta_x0y0y2(void){
+	sensx0y0y2=(verifica_sensor(cmSX0)*1)+(verifica_sensor(cmSY0)*2)+(verifica_sensor(cmSY2)*4);
+}
+
+void monta_x1y0y2(void){
+	sensx1y0y2=(verifica_sensor(cmSX1)*1)+(verifica_sensor(cmSY0)*2)+(verifica_sensor(cmSY2)*4);
+}
+
+
+//tratamento das interrupções de baixa prioridade
+void onLPISR(void) {
+
+}
+
+void atualiza_vars(void){
+	static U8 i=0;
+	if ((i%5)==0) monta_stat2();
+	if ((i%5)==1) monta_stat3();
+	if ((i%5)==2) monta_stat3_ohm();
+	if ((i%5)==3) monta_y0y2();
+	if ((i%5)==4) monta_x0y0y2();
+	if (((i++)%6)==5) monta_x1y0y2();
+}
+
+//tick do sistema
+void onSystemTick(void) {
+	//timers virtuais
+	// 5us
+	if (Timerms[0]>0) Timerms[0]--;
+	if (Timerms[1]>0) Timerms[1]--;
+	if (Timerms[2]>0) Timerms[2]--;
+	if (Timerms[3]>0) Timerms[3]--;
+	if (Timerms[4]>0) Timerms[4]--;
+	if (Timerms[5]>0) Timerms[5]--;
+	if (Timerms[6]>0) Timerms[6]--;
+	if (Timerms[7]>0) Timerms[7]--;
+	if (Timerms[8]>0) Timerms[8]--;
+	if (Timerms[9]>0) Timerms[9]--;
+	if (Timerms[10]>0) Timerms[10]--;
+
+	if (tmLEDOK==0)	{
+		if ((config) || (Timerms[1]>0)) tmLEDOK = 100;  else tmLEDOK = 1000;
+	}
+
+	if (!Timerms[2]) config=0;
+
+//plasma	pin_LEDOK = tmLEDOK<50;
+
+
+	//if (!tmSL1) pin_LEDTXRX=0;
+	atualiza_vars();
+	verifica_sens();
+}
+
+void IniciaCCP1(){
+	CCP1MD=0;//habilita modulo ccp
+	CCP1IE=1;//habilita interrupção
+	CCPTMRS0bits.C1TSEL=2;//utiliza timer 5;
+	CCP1CONbits.CCP1M = 4;//falling edge//descida
+}
+
+void IniciaCCP2(){
+	CCP2MD=0;//habilita modulo ccp
+	CCP2IE=1;//habilita interrupção
+	CCPTMRS0bits.C2TSEL=1;//utiliza timer 3;
+	CCP2CONbits.CCP2M = 4;//falling edge//descida
+}
+
+void IniciaANALOG(){
+	ANSELD = 0b00001001;//AN20 e AN23
+	ADCON2bits.ADCS = 1;//FOSC/8
+	ADCON1bits.PVCFG = 0;//Ref - VDD
+	ADCON1bits.NVCFG = 0;//Ref - VSS
+	ADCON2bits.ADFM = 1;//ADRESH/ADRESL
+	ADCON2bits.ACQT = 1;//2Tad
+}
+
+
+void IniciaUART2(U32 baud, char irqon) {
+	U32 x = (60000000UL/(4*baud)) - 1;
+	SPBRGH2 = x>>8;
+	SPBRG2 = x;
+	TXSTA2 = BIT7|BIT5|BIT2;
+	RCSTA2 = BIT7|BIT4;
+	BAUDCON2 = BIT3;
+	RC2IE = irqon;
+}
+
+
+void RecuperaDadosEEprom(void){
+	int i;
+	//set_dif = ReadMem(emSETDIF);
+	for (i=0; i<10; i++) {
+		pos_sensores[i] = ReadMem(i+10);
+		if ((pos_sensores[i]==0) || (pos_sensores[i]>11)) pos_sensores[i]=i+1;//protecao
+	}
+
+	//byte
+	parENCDIF = ReadMem(emSETDIF);
+	parCONTATO = ReadMem(emCONTATOZ);
+	//parVELZ = ReadMem(emVELZ);
+	//calcula aqui para não perder tempo
+	parVELZ=(long)((1/(ReadMem(emVELZ)*100.0))*1E6);//100 passos por milimetro
+	parVELZ=(long)(parVELZ*0.9);//10% de compensação
+	parVELZ=(long)(parVELZ/10);
+
+	parHISTHC = ReadMem(emHISTHC);
+
+	//parVELTHC = ReadMem(emVELTHC);
+	parVELTHC=(long)((1/(ReadMem(emVELTHC)*100.0))*1E6);//100 passos por milimetro
+	parVELTHC=(long)(parVELTHC*0.9);//10% de compensação
+	parVELTHC=(long)(parVELTHC/10);
+	memoVELTHC = parVELTHC;
+
+	parHABTHC = ReadMem(emHABTHC);
+
+	//word
+	parTEMPESPMOV = ReadMemW(emTEMPESPMOV);
+	parALTINICORTE = ReadMemW(emALTINICORTE);//20
+	parALTPARZ = ReadMemW(emALTPARZ);//30
+	parALTZERZ = ReadMemW(emALTZERZ);//40
+	parALTDURCORT = ReadMemW(emALTDURCORT);//10
+	parALTCORZ = ReadMemW(emALTCORR);//0
+}
+
+
+void Inicializa(void) {
+	int i;
+	for (i=0;i<1000;i++);
+    InitSystem(); //D:\prog\lib_mcu_pic\src\port\pic18f\xsystem.c
+	IniciaUART1(1250000,1);
+	IniciaUART2(9600,0);
+	IniciaTMR2();
+	IniciaTMR3();
+	IniciaTMR5();
+	IniciaCCP1();
+	IniciaCCP2();
+	IniciaANALOG();
+	//pin_ENA = 1;//trava motor z
+	ResetaSerial();
+	RecuperaDadosEEprom();
+
+}
+
+
+
+U8 Estado = 0;
+U8 Tensao,Pressao,Contato;
+U8 Dado[4];
+
+void ProcessaPacote(U8 DadoRec){
+
+//	val_thc=10;
+//pin_LEDOK = !pin_LEDOK;
+//return;
+U8 k;
+U8 seq = (DadoRec>>6)&3;
+
+switch (Estado){
+	case 0:{
+		if(seq!=0) break;
+
+		Dado[0] = DadoRec;
+		Estado = 1;
+
+		break;
+	}
+		case 1:{
+
+		if(seq!=1) {Estado = 0; break;}
+		Dado[1] = DadoRec;
+		Estado = 2;
+		break;
+	}
+	case 2:{
+
+		if(seq!=2) {Estado = 0; break;}
+		Dado[2] = DadoRec;
+		Estado = 3;
+		break;
+	}
+	case 3:{
+		if(seq!=3) {Estado = 0; break;}
+
+		Dado[3] = DadoRec;
+		if(Dado[0]!= ((Dado[1]+Dado[2]+Dado[3])&63)) {Estado = 0; break;}
+		Estado = 0;
+		Tensao = ((Dado[1]<<4)&192) +(Dado[2]&63);
+		Pressao = ((Dado[1]<<6)&192)+(Dado[3]&63);
+		Contato = ((Dado[1]>>4)&1);
+
+		DI();
+		pin_LEDOK=1;
+		for (k=0;k<Tensao;k++)
+		{
+			if (RC2IF) k = RCREG2;
+		   delayus(10);//pin_LEDOK=  ((Pressao>90)&&(Pressao<110));
+		}
+		pin_LEDOK=0;
+		EI();
+
+	//	Inicializa();
+//		InitSystem(); //D:\prog\lib_mcu_pic\src\port\pic18f\xsystem.c
+//	 IniciaUART2(9600,0);
+
+//		RC2IF=0;
+		val_thc=Tensao;
+
+		//if (Tensao==0x99)	pin_LEDOK = !pin_LEDOK;
+
+
+
+//	putch(Tensao);
+//	putch(Pressao);
+//	putch(Contato);
+
+		break;
+	}
+}
+}
+
+
+
+void VerificaSerial2(void) {
+	U8 d;
+
+	GIE=0;
+	if (!RC2IF) return;
+	d = RCREG2;
+	ProcessaPacote(d);
+	GIE=1;
+
+}
+
+
+unsigned char getCRC08M(unsigned char poly) {
+    unsigned char i, r = 0;
+    for (i=0;i<8;i++) {
+        r = r << 1;
+        r = r | (poly&1);
+        poly = poly >> 1;
+    }
+    return r;
+}
+
+//8bits CRC right shifted
+//data = buffer de bytes a serem calculados
+//length = quantidade de bytes
+//poly = polinomio original
+//init = valor inicial do crc
+unsigned char getCRC08R(void * data, int length, unsigned char  poly, unsigned char  init) {
+	unsigned char  i, crc = init;
+	unsigned char  * p = data;
+	poly = getCRC08M(poly);
+	while (length--) {
+		crc = crc ^ (*p++);
+		for (i = 0; i < 8; i++)
+			crc = (crc & 0x01) ? (crc >> 1) ^ poly : (crc >> 1);
+	}
+	return crc;
+}
+
+//poly = x8+ x5+ x4 + x0 = 0x31
+U08 getCRC08_ONEWIRE(void * data, int length) {
+	return getCRC08R(data, length, 0x31, 0x0000);
+}
+//crc=getCRC08_ONEWIRE(&teste, 2);
+
+U8 RecebeU8(U8 *b) {
+	U8 i;
+	i = 0;
+	while (Serial.Count==0)	{
+		delayus(1);
+		if (++i>16) return 1;//modificado de 200 para 16
+	}
+	GIE = 0;
+	*b = Serial.Buffer[(Serial.Read++)&0xF];
+	Serial.Count--;
+	GIE = 1;
+	Serial.check_proc += *b;
+	return 0;
+}
+
+/*
+BYTE RecebeByte(BYTE *b) {
+	BYTE retry;
+
+	retry = 0;
+	while (!RCIF) {
+		delayus(10);
+		if (retry++ > 10) return 0;
+	}
+
+	*b = RCREG;
+	return 1;
+}
+*/
+
+void EnviaTX(U8 Dado) {
+	//if (delaypacote) delayus(30);
+	//GIE = 0;
+	NOP();
+	pin_TXRXEN = 1;		//Liga a 485
+	NOP();
+	TXREG1 = Dado;	//Envia o dado
+	Serial.check_proc += Dado;
+	Serial.check_rec += Dado;
+	while (!TRMT1);	//Espera terminar
+	NOP();
+	pin_TXRXEN = 0;		//Desliga a 485
+	NOP();	NOP();
+	NOP();	NOP();
+	NOP(); 	NOP();
+	RCIF = 0;
+}
+
+U8 calc_angx(U16 ton, U16 toff){
+	float x;
+	x = (U16)((1000)/((1000)+(1000)));//foi preciso multiplicar por 1.0 para funcionar
+
+	return ((U8)(x*255));
+}
+
+U8 calc_ang(U16 ton, U16 toff){
+	float x;
+	//x = (ton*1.0)/((ton*1.0)+(toff*1.0));//foi preciso multiplicar por 1.0 para funcionar
+	x = (ton*1.0)/((ton+toff)*1.0);//foi preciso multiplicar por 1.0 para funcionar
+	return ((U8)(x*255.0));
+}
+static U8 dira=0, dirb;
+static U8 voltasa=0, voltasb=0;
+U8 aux1, aux2=0;
+
+void calcula_dif_angA(void){
+	static U8 difx, ang1x=0, ang2x=0, cont=0;
+
+	//calcula diferenca entre angulos 1
+	if (!ang1x) ang1x=ang1;
+	if (!ang2x) ang2x=ang2;
+
+	difx=abs(ang1-ang1x);
+
+
+	if(difx>30) ang1x=ang1;
+	//verifica direcao do movimento
+	if ((difx>2) && (difx<30)){
+		if (ang1>ang1x) dira=1;
+		if (ang1<ang1x) dira=2;
+		ang1x=ang1;
+	}
+	//conta voltas
+	if ((ang1>100) && (ang1<150)){
+		if (aux1==0){
+			aux1=1;
+			if (dira==1) voltasa++;
+			if (dira==2) voltasa--;
+		}
+	}
+	else
+		aux1=0;
+
+
+	//calcula diferenca entre angulos 2
+	difx=abs(ang2-ang2x);
+
+
+	if(difx>30) ang2x=ang2;
+	//verifica direcao do movimento
+	if ((difx>2) && (difx<30)){
+		if (ang2>ang2x) dirb=1;
+		if (ang2<ang2x) dirb=2;
+		ang2x=ang2;
+	}
+
+
+	//conta voltas
+	if ((ang2>100) && (ang2<150)){
+		if (aux2==0){
+			aux2=1;
+			if (dirb==2) voltasb++;
+			if (dirb==1) voltasb--;
+		}
+	}
+	else
+		aux2=0;
+
+	//calcula diferenca
+	//dif=255-((voltasa*255)+ang1)-((voltasb*255)+ang2);
+	if ((ang1<10) || (ang1>240) || (ang2<10) || (ang2>240)) dif=0; //desconsidera valores entre 240~255 e 0~10 --TESTAR
+	else dif=abs(255-ang1-ang2);
+
+	med_dif_enc[cont++%N_MEDIA_ENC]=(dif<parENCDIF);///dif<parametro de dif
+	dif_encoder_ok=media_enc();
+	//if (dif>parENCDIF) med_dif_enc[cont++%N_MEDIA]=0;
+	//else med_dif_enc[cont++%N_MEDIA]=1;
+
+	//if (dif>parENCDIF) dif_encoder_ok=0;
+	//else dif_encoder_ok=1;
+}
+
+
+void calcula_encoders(void){
+	static U8 etapa=0;
+	static REAL num=0, den=0;
+
+	switch(etapa){
+		//case 0: {ton1  = (valores_ton1); break; }//(1/15MHz)*1E6 --> Para o tempo ficar em us
+		//case 1: {toff1 = (valores_toff1); break; }
+		case 0: {num = (valores_ton1*1.0); break; }
+		case 1: {den = ((valores_ton1+valores_toff1)*1.0); break; }
+		case 2: {num = num/den; break; }
+		case 3: {ang1 = ((U8)(num*255.0)); break; }
+		//case 2: {ang1  = calc_ang(ton1, toff1); break; }
+		//case 6: {ton2  = (valores_ton2); break; }
+		//case 7: {toff2 = (valores_toff2); break; }
+		case 4: {num = (valores_ton2*1.0); break; }
+		case 5: {den = ((valores_ton2+valores_toff2)*1.0); break; }
+		case 6: {num = num/den; break; }
+		case 7: {ang2 = ((U8)(num*255.0)); break; }
+		//case 5: {ang2  = calc_ang(ton2, toff2); break; }
+		case 8: {calcula_dif_angA(); break; }
+	}
+	etapa=(++etapa)%9;
+}
+
+void atualiza_pos_sensor_eeprom(void){
+	WriteMem(sensor-100, posicao);
+	Timerms[1]=1000;
+	config=0;
+	pos_sensores[sensor-110]=posicao;
+}
+
+/*
+
+void move_z(U8 dir){
+	pin_DIR = dir;
+	EnviaTX(dir);
+	pin_PUL = 1;
+	delayus(10);
+	pin_PUL = 0;
+}*/
+
+void PassoManual (U8 dir){
+	if (tmPULMOT) return;
+
+	if (dir=='U') {
+		if (verifica_sensor(cmSZ1)) return;
+		pin_DIR=1;
+		defz++;
+	}
+	if (dir=='D') {
+		if (verifica_sensor(cmSZ2) || verifica_sensor(cmSZ0)) return;
+		pin_DIR=0;
+		defz--;
+	}
+	tmPRENDE2=2000;
+	pin_ENA = 1;
+	pin_PUL = 1;
+	delayus(1);
+	pin_PUL = 0;
+	//pin_ENA = 0;
+}
+
+U8 SinalParada(){
+	//return 0;
+	if (tmDRIVEA) return 0;
+	tmDRIVEA = 200;//5x por segundo
+	U8 Comando=0;
+	//Now();
+	RecebeU8(&Comando);
+	if (Comando==cmPARAR) stop=1;
+	else stop=0;
+	return stop;
+}
+
+
+#define passos_rampa 5
+//modo 1 - da o tempo aqui mesmo na rampa
+int rampa(BYTE rst, long t, BYTE modo){
+	static int est=0;
+	int calc=0;
+
+//	t=(long)((1/(t*100.0))*1e6);//100 passos por milimetro
+	//t=(long)(t/2.0);
+	//t=100;
+	if (rst){
+		est=0; //reinicia rampa
+		return 0;
+	}
+
+	if (tmPULMOT>0) return 0;
+
+	if (t>90) {//480
+		if (modo) delayus(t);
+		tmPULMOT = (WORD)(t);
+		return t;
+	}
+
+	if (est<passos_rampa*10) est++;// incrementa estagio
+
+	if ((est>0) && (est<=passos_rampa)) calc=(t*6);
+	if ((est>passos_rampa) && (est<=passos_rampa*2)) calc=(t*5);
+	if ((est>passos_rampa*2) && (est<=passos_rampa*3)) calc=(t*4);
+	if ((est>passos_rampa*3) && (est<=passos_rampa*4)) calc=(t*3);
+	if ((est>passos_rampa*4) && (est<=passos_rampa*5)) calc=(t*2);
+	if ((est>passos_rampa*5) && (est<=passos_rampa*6)) calc=((U16)(t*1.8));
+	if ((est>passos_rampa*6) && (est<=passos_rampa*7)) calc=((U16)(t*1.6));
+	if ((est>passos_rampa*7) && (est<=passos_rampa*8)) calc=((U16)(t*1.4));
+	if ((est>passos_rampa*8) && (est<=passos_rampa*9)) calc=((U16)(t*1.2));
+	if (est>passos_rampa*9) calc=(t);//delayus(tt);
+	pin_LEDTXRX ^= 1;
+	if (modo) delayus(calc);
+	tmPULMOT = (WORD)(calc);
+	return calc;
+}
+
+
+void controla_thc(void){
+	int dif;
+
+	if (tmPULMOT>0) return;
+
+	dif = (abs(val_thc-val_pot));
+	if (dif<parHISTHC) {rampa(1,0,1); return;}
+
+	if (val_thc>val_pot) PassoManual('D');
+	else PassoManual('U');
+
+	rampa(0, parVELTHC, 0);
+	//if (parVELTHC>1000) tmSL2=(WORD)((parVELTHC*1.0)/1000.0);
+	//else rampa(0, parVELTHC, 1);
+	/*if (dif>10) rampa(0, parVELTHC, 1);*/
+	/*else {
+		rampa(1,0,1);
+		rampa(0, 500, 1);//10mm/s - 1000Hz
+	}*/
+}
+
+long corrige_err(long dz){
+	//pin_LEDTXRX = contato_ohmico;
+	if (contato_ohmico) return dz;
+	return (dz+(parALTCORZ*10));
+	//return dz+500;
+}
+
+
+BYTE SobeTocha(long dz){
+	//if (maq.flutuando) return 0;
+	//if (dz!=0) dz=corrige_err(dz);
+	rampa(1, 0, 1); //reseta rampa
+	do{
+		if (SinalParada()) return 1;
+		if ((dz) && (verifica_sensor(cmSZ1))) return 1;
+		if ((dz==0) && (verifica_sensor(cmSZ1))) return 0;//até fim de curso superior
+		if (tmPULMOT==0){
+			PassoManual('U');
+			rampa(0,parVELZ,0);//delayus(parVELZ.value);//delayus(tt);
+		}
+		//SimulaInversor('U', 100);
+		//defz++;//i++;
+		//showmsg("#defz:%d", defz);
+	}while((defz<dz) || (dz==0));
+	return 0;//ok
+}
+
+//Modo=1 - terminou bloco
+//Modo=0 - terminou corte
+BYTE RetornaTocha(char modo){
+	//if (maq.flutuando) return 0;
+	//tt=100;
+	//EnviaTX(cmDESLARCO);//PWMVE(0);//desliga arco
+	arco_ativo=0;
+	if (modo) {if (SobeTocha((parALTPARZ*100))) return 1;}//até ponto parada  //// parametro ponto de parada z
+	else {if (SobeTocha((parALTZERZ*100))) return 1;}//até ponto zeramento //// parametro ponto de zeramento z
+	EnviaTX(cmMOVEOK);
+	return 0;//ok
+}
+
+
+BYTE DesceTocha(BYTE sensor, long dz){
+	//if (dz!=0) dz=corrige_err(dz);
+	BYTE teste=0;
+	rampa(1, 0, 1);
+	do{
+		if ((verifica_sensor_individual(cmSZ2)) || (SinalParada())) return 1;
+		//pin_LEDTXRX ^= 1;
+		if (tmPULMOT==0){
+			PassoManual('D');
+			rampa(0, parVELZ, 0);
+		}
+
+		//defz--;
+		if (!dz)
+			switch (sensor){
+				case 1: {
+							teste=(!((verifica_sensor_individual(cmSOH))||(verifica_sensor_individual(cmSZ0)))); //break;//enquanto estiver desligado contato tocha
+							if (verifica_sensor_individual(cmSOH)) contato_ohmico=1;
+							else contato_ohmico=0;
+						}break;
+				case 2: teste=verifica_sensor_individual(cmSZ1); break;//enquanto estiver ligado limite superior
+			}
+	}while((teste) || ((defz>dz)&&(!sensor)));
+	return 0;//ok
+}
+
+BYTE IniciaTocha(void){
+	/*int i;
+	for (i=0;i<100;i++) {
+		PassoManual('U');
+		delayus(500);
+	}
+	return 0;*/
+	pin_HABOHM=1;//habilita sensor ohmico
+	if (DesceTocha(1,0)) return 1;
+	pin_HABOHM=0;//desabilita sensor ohmico
+	//delayms(300);
+	if (contato_ohmico==1) defz=0;
+	else defz=-(parALTCORZ*10);
+	if (parCONTATO){
+		EnviaTX(cmLIGAARCO);//PWMVE(255);//liga arco
+		arco_ativo=1;
+	}
+	if (SobeTocha(parALTINICORTE*10)) return 1;////parametro altura inicio corte
+	if (!parCONTATO){
+		EnviaTX(cmLIGAARCO);//PWMVE(255);//liga arco
+		arco_ativo=1;
+	}
+	delayms(parTEMPESPMOV);//parametro tempo de espera
+	if (!parHABTHC) if (DesceTocha(0,parALTDURCORT*10)) return 1;////parametro altura durante corte somente sem o controle THC
+	rampa(1,0,1);
+	EnviaTX(cmMOVEOK);
+	return 0;//ok
+}
+
+
+void reset_fab_sens(){
+	int i;
+	for(i=0;i<10;i++){
+		sensor=i+110;
+		posicao=i+1;
+		atualiza_pos_sensor_eeprom();
+	}
+}
+
+void pulso(U8 t)
+{
+U8 k;
+DI();
+pin_LEDOK=1;
+for (k=0;k<Tensao;k++)
+{
+   if (RC2IF) k = RCREG2;
+   delayus(10);
+}
+pin_LEDOK=0;
+EI();
+}
+
+void Comunicacao(void) {
+	U8 Comando, Com_aux;
+	static U8 i=0;
+	static U8 end, dadoh, dadol, habword;
+
+	if (Serial.Resetar) { ResetaSerial(); return; }
+
+	if (Serial.Count==0) return;
+	RecebeU8(&Comando);
+
+	if (modo_seta_par){
+		Timerms[1] = 1000;
+		if ((modo_seta_par%2)==1) {//impar
+			end=Comando;//recebe endereco
+			if (end>=40) habword=1;//se endereco word - habilita word
+			else habword=0;
+		}
+		else{
+			if (habword==2) {
+				dadol=Comando;
+			}
+			if (habword==1) {
+				habword=2;
+				dadoh=Comando;
+				return;
+			}
+			if (habword==0)dadoh=Comando;
+		}
+		modo_seta_par++;
+
+		if (modo_seta_par%2) {//impar
+			if (habword) {
+				WriteMemW(end, (WORD)((dadoh<<8)+(dadol)));//escreve word
+				habword=0;
+			}
+			else WriteMem(end, dadoh);//escreve byte
+		}
+		if (modo_seta_par==25){
+			modo_seta_par=0;
+			RecuperaDadosEEprom();
+		}
+		return;
+	}
+
+	if ((config<5) && (config>0)){
+		if ((Comando>=1)&&(Comando<=11)&&(config==2)){
+			posicao=Comando;
+			config=3;
+			atualiza_pos_sensor_eeprom();
+		}
+		if ((Comando>=110)&&(Comando<=119)&&(config==1)) {
+			sensor=Comando;
+			config=2;
+		}
+		return;
+	}
+
+	if ((Comando>=110)&&(Comando<=119)){//sensores individuais
+		EnviaTX(verifica_sensor(Comando));
+		return;
+	}
+
+	if (config==5){
+		WriteMem(emSETDIF, Comando);
+		Timerms[1]=1000;
+		config=0;
+		parENCDIF = Comando;
+		return;
+	}
+
+	switch (Comando){
+		case cmDIF:  EnviaTX(dif); break;
+		case cmDIFOK:EnviaTX(dif_encoder_ok); break;
+		case cmANG1: EnviaTX(ang1); break;
+		case cmANG2: EnviaTX(ang2); break;
+		//case cmSENS: EnviaTX((0b11000000^PORTA)>>3); EnviaTX(((0b11100000^PORTA)<<5)+PORTB);break;
+		case cmSENS: EnviaTX((dif_encoder_ok*8)+(pin_S11*4)+(pin_S10*2)+(pin_S9*1));
+				     EnviaTX((pin_S8*128)+(pin_S7*64)+(pin_S6*32)+(pin_S5*16)+(pin_S4*8)+(pin_S3*4)+(pin_S2*2)+(pin_S1*1)); break;
+		case cmTROCS: config=1; Timerms[2] = 3000; break;
+		case cmSETDIF: config=5;  Timerms[2] = 3000;break;
+		case cmRESETF:reset_fab_sens(); break;
+		case cmSETPAR: modo_seta_par=1;break;
+		case cmTESTE: pin_LEDTXRX ^= 1; break;
+		case cmPARAR: stop=1; break;
+		case cmINICIAZ: {stop=0; if (IniciaTocha()) EnviaTX(cmSTOPMAQ); break;}
+		case cmRETZB: {stop=0; if (RetornaTocha(1)) EnviaTX(cmSTOPMAQ); break;}
+		case cmRETZZ: {stop=0; if(RetornaTocha(0)) EnviaTX(cmSTOPMAQ); break;}
+		case cmSOBEZ: {stop=0; PassoManual('U'); break;}
+		case cmDESCEZ: {stop=0; PassoManual('D'); break;}
+		case cmRECVAL:{
+							switch(i){
+								case 0:{EnviaTX(parTEMPESPMOV>>8); EnviaTX(parTEMPESPMOV);break;}
+								case 1:{EnviaTX(parALTINICORTE>>8); EnviaTX(parALTINICORTE);break;}
+								case 2:{EnviaTX(parALTPARZ>>8); EnviaTX(parALTPARZ);break;}
+								case 3:{EnviaTX(parALTZERZ>>8); EnviaTX(parALTZERZ);break;}
+								case 4:{EnviaTX(parALTDURCORT>>8); EnviaTX(parALTDURCORT);break;}
+								case 5:{EnviaTX(parALTCORZ>>8); EnviaTX(parALTCORZ);break;}
+							}
+							i=(++i)%6;
+							break;
+					  }
+		case cmINITHC:ini_thc=1; break;
+		case cmSTOPTHC: ini_thc=0; break;
+		case cmSOBEZSUP: {if (!SobeTocha(0)) EnviaTX(cmSOBEZOK); break;}
+		case cmDESCEZSUP:{if (!DesceTocha(2, 0)) EnviaTX(cmMOVEOK); break;}
+		case cmSTAT2: { EnviaTX(stat2);break;}
+		case cmSTAT3: { EnviaTX(stat3);break;}
+		case cmST3OHM: { EnviaTX(stat3ohm);break;}
+		case cmSENSY0Y2: { EnviaTX(sensy0y2); break;}
+		case cmSENSX0Y1: {EnviaTX((verifica_sensor(cmSX0)*1)+(verifica_sensor(cmSY1)*2)); break;}
+		case cmSENSX1Y1: {EnviaTX((verifica_sensor(cmSX1)*1)+(verifica_sensor(cmSY1)*2)); break;}
+		case cmSENSOK:{ EnviaTX(sok);break;}
+		case cmCLRSENSOK: {sok=0;break;}
+		case cmSENSX0Y0Y2: {EnviaTX(sensx0y0y2); break;}
+		case cmSENSX1Y0Y2: {EnviaTX(sensx1y0y2); break;}
+		case cmSENSCONT: {envia_contin=1; break;}
+		case cmNSENSCONT: {envia_contin=0; break;}
+		case cmTENTHC: {/*EnviaTX(val_thc>>8);*/EnviaTX(val_thc); break;}
+		case cmSETTHC: {
+			RecebeU8(&Com_aux);
+
+		val_pot=Com_aux;
+
+		pulso(100);
+
+
+		break;}
+		//case cmDIMRES: parVELTHC=5000; break;//parVELTHC=500; break;
+		//case cmAUMRES: parVELTHC=memoVELTHC; break;
+		case cmLEDEFZ: {EnviaTX(defz>>8); EnviaTX(defz); break;}
+	}
+}
+
+U16 le_analog(U8 canal){
+	ADCON0bits.CHS = canal;
+	ADON = 1;
+	delayus(5);
+	GO = 1;
+	while(nDONE);
+	ADON = 0;
+	return ADRES;
+}
+
+void analog(void){
+//	val_thc =(U8)(le_analog(CANAL_THC)/4);
+	//val_pot = (U8)(le_analog(CANAL_POT)/4);
+}
+
+void main(void) {
+
+	 long d=0;
+	 U8 dr,dr1,dr2;
+
+	Inicializa();
+
+	//	while(1)
+		{
+			pin_LEDOK=1;
+			d=2;
+			pin_LEDOK=0;
+		}
+
+
+
+
+	 /*
+		GIE=0;
+		DI();
+
+	 while(1)
+	{
+			//if (OERR){ CREN = 0; CREN = 1;	RCIF = 0;}
+			
+			if (d++>1000000)
+			{
+				InitSystem();
+				IniciaUART2(9600,0);
+					pin_LEDOK=0;
+					d++;
+					pin_LEDOK=1;
+					d--;
+					pin_LEDOK=0;
+			d=0;
+			delayus(10);
+			}
+		//	pin_LEDOK=!pin_LEDOK;
+
+	/*	if (RC2IF)
+		{
+			pin_LEDOK=!pin_LEDOK;
+			dr = RCREG2;
+			dr1 = RCREG2;
+			dr2 = RCREG2;
+			ProcessaPacote(dr);
+		}
+	}
+}
+
+void nada()
+{
+*/
+
+
+	//reset_fab_sens();
+	//U8 i=0;
+	//int testes=0;
+	while (1) {
+
+		 VerificaSerial2();
+
+
+		//if (!modo_seta_par){
+		//	calcula_encoders();
+		//	analog();
+		//	controla_thc();
+		//}
+	//	pin_LEDTXRX = arco_ativo;
+
+
+
+		if (parENCDIF){
+			if (tmDRIVEB==0) {//!tmDRIVEB
+				tmDRIVEB = 1;//dif a cada 8ms
+				calcula_encoders();
+				//pin_LEDTXRX ^= 1;
+			}
+		}
+		analog();
+		if (parHABTHC){
+			if ((ini_thc) || (arco_ativo)) {
+			//if ((ini_thc) && (arco_ativo)) {
+				controla_thc();
+			}
+			else rampa(1,0,1);
+		}
+
+
+		/*if (tmSL2==0){//!tmSL2 não funcionou corretamente, as vezes travava
+			tmSL2=5;
+			if ((i%5)==0) monta_stat2();
+			if ((i%5)==1) monta_stat3();
+			if ((i%5)==2) monta_y0y2();
+			if ((i%5)==3) monta_x0y0y2();
+			if (((i++)%5)==4) monta_x1y0y2();
+		}*/
+
+		if (envia_contin){
+			if (tmPRENDE1==0){//!tmPRENDE1
+				tmPRENDE1=5;
+				EnviaTX(((verifica_sensor(cmSAA))<<5)+(stat2>>3));
+			}
+		}
+
+		Comunicacao();
+
+		if (tmPRENDE2==0){
+			pin_ENA=0;
+
+		}
+		/*if (testes==0) {
+			DesceTocha(1,0);
+			testes=1;
+		}*/
+		//le_analog(23);//an1
+		//EnviaTX(dif);
+		//delayms(500);
+		//EnviaTX(val_analog >> 8);
+		//EnviaTX(val_analog);
+		//delayms(100);
+	}
+}
+
+////////////////////
+
+
+//---------------------------------------------------------------------
+// informações gerais
+//---------------------------------------------------------------------
+/*
+
+	Suporte do sistema
+	
+	1) bits de configuração
+	2) rotinas de delay
+	3) controle de interrupção
+	4) tick do sistema
+
+	Arquivos relacionados ao microcotroladore/compilador
+	
+Datasheet
+#include "G:\Datasheets\Microcontroladores\PIC\PIC18F\PIC18F45K22.pdf"
+
+Errata
+#include "G:\Datasheets\Microcontroladores\PIC\PIC18F\PIC18F45K22 - Errata.pdf"
+
+Include final
+#include "C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\include\pic18f45k22.h"
+
+Compilador
+#include "C:\Program Files (x86)\HI-TECH Software\PICC-18\PRO\9.66\docs\manual.pdf"
+
+*/
+
+//---------------------------------------------------------------------
+// Includes
+//---------------------------------------------------------------------
+//...
+#include <port\xsystem.h>
+
+#ifndef __SYSTEM__NOW
+#error "__SYSTEM__NOW"
+#endif
+
+#ifndef __SYSTEM__TICK
+#error "__SYSTEM__TICK"
+#endif
+
+//---------------------------------------------------------------------
+// bits de configuração
+//---------------------------------------------------------------------
+#if defined (__SYSTEM__NOXTAL)
+__PROG_CONFIG(0x1,0x7800); //00-01 (cristal interno de 16Mhz)
+#else
+__PROG_CONFIG(0x1,0x7300); //00-01 (cristal externo de 15Mhz)
+#endif
+__PROG_CONFIG(0x2,0x0006); //02-03
+__PROG_CONFIG(0x3,0xB500); //04-05
+__PROG_CONFIG(0x4,0x0085); //06-07
+__PROG_CONFIG(0x5,0xC00F); //08-09
+__PROG_CONFIG(0x6,0xE00F); //10-11
+__PROG_CONFIG(0x7,0x400F); //12-13
+
+__IDLOC(01234567);
+
+//---------------------------------------------------------------------
+// variáveis
+//---------------------------------------------------------------------
+#if (__SYSTEM__TICK==1) && (__SYSTEM__NOW==1)
+tTIME xNow = 0;
+#endif
+
+volatile char gielevel = 0;
+
+//---------------------------------------------------------------------
+// interrupção
+//---------------------------------------------------------------------
+
+#if (__SYSTEM__TICK==1)
+//interrupção de baixa prioridade
+void interrupt low_priority LPISR(void) {	
+	//tick do sistema?
+	if (TMR1IF) {
+		CLRWDT();
+		TMR1 -= FOSCMS; //valor fixo de 1ms
+		TMR1IF = 0;
+		#if (__SYSTEM__NOW==1)
+		xNow++;
+		#endif
+		onSystemTick();
+		return;
+	}
+	
+	//se não foi tick do sistema então foi outra do usuário
+	onLPISR();
+}
+
+//interrupção de alta prioridade (default para todos os dispositivos)
+void interrupt HPISR(void) {
+	gielevel++;
+	onHPISR();
+	gielevel--;
+}
+#endif
+
+//---------------------------------------------------------------------
+// inicialização do hardware
+//---------------------------------------------------------------------
+#if defined (__SYSTEM__NOXTAL)
+static void IniciaPLL(void) {
+	//o sistema inicia rodando a 1MHz (configurado pelos FUSES)
+	IRCF2 = 1; //ativa o modo de 16MHz
+	PLLEN = 1; //ativa o PLL (4x)
+}
+#endif
+
+static void IniciaDAC(void) {
+	//configura os pinos analógicos
+	ANSELA = 0x00;
+	ANSELB = 0x00;
+	ANSELC = 0x00;
+	ANSELD = 0x00;
+	ANSELE = 0x00;
+}
+
+static void IniciaPIO(void) {
+	//Entradas e saidas
+	TRISA = kTRISA;
+	TRISB = kTRISB;
+	TRISC = kTRISC;	
+	TRISD = kTRISD;
+	TRISE = kTRISE;
+	
+	//valor padrão de inicialização
+	PORTA = kPORTA;
+	PORTB = kPORTB;
+	PORTC = kPORTC;	
+	PORTD = kPORTD;
+	PORTE = kPORTE;
+}
+
+//tick do sistema e variável NOW
+#if (__SYSTEM__TICK==1)
+static void IniciaTMR1(void) {
+	TMR1 = -FOSCMS;	
+	TMR1IE = 1;
+	TMR1IP = 0; //baixa prioridade
+	TMR1IF = 0;
+	TMR1ON = 1;	
+}
+#endif
+
+void InitSystem(void) {
+
+#if defined (__SYSTEM__NOXTAL)
+	IniciaPLL();
+#endif
+
+	IniciaDAC();
+	IniciaPIO();
+
+#if (__SYSTEM__TICK==1)
+	IniciaTMR1();	
+	IPEN = 1;
+	PEIE = 1;
+	GIE = 1;
+#endif
+}
+
+//---------------------------------------------------------------------
+// uart
+//---------------------------------------------------------------------
+//por default a UART inicia com interrupção de alta prioridade
+void IniciaUART1(U32 baud, char irqon) {
+	U32 x = (FOSC/(4*baud)) - 1;
+	SPBRGH1 = x>>8;
+	SPBRG1 = x;
+	TXSTA1 = BIT7|BIT5|BIT2;
+	RCSTA1 = BIT7|BIT4;
+	BAUDCON1 = BIT3;
+	RC1IE = irqon;
+}
+
+//rotina basica de impressão
+void putch(char c) {
+    TXREG1 = c;
+    while (!TRMT1);    
+}
+
+void putstr(const char *s) {
+    while (*s) putch(*s++); 
+}
+
+//---------------------------------------------------------------------
+// delays/tick
+//---------------------------------------------------------------------
+#if (__SYSTEM__NOW==1)
+tTIME Now(void) {
+	tTIME r;
+	DI();
+	r = xNow;
+	EI();
+	return r;
+}
+#endif
+
+void delayus(int t) {
+	while (t>=10) { _delay(FOSCUS*10-25); t -= 10; }
+	while (t--) _delay(FOSCUS-11);
+}
+
+void delayms(int t) {
+	while (t--) _delay(FOSCMS);
+}
+
+
+
